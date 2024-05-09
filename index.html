@@ -1,7 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* Basic styling for demonstration purposes */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        sidebar {
+            width: 200px;
+            height: 100%;
+            background-color: #f4f4f4;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        main {
+            margin-left: 220px; /* Adjust according to sidebar width */
+            padding: 20px;
+        }
+    </style>
+</head>
 <body>
-    <h1>Hello World</h1>
-    <p>I'm hosted with GitHub Pages.</p>
+    <header>
+        <h1>My Portfolio</h1>
+        <!-- Replace 'Your Name' and 'Your Logo' with your actual name and logo -->
+        <div>Your Name</div>
+        <div>Your Logo</div>
+    </header>
+
+    <sidebar>
+        <nav>
+            <ul>
+                <!-- Replace '#' with actual links to your project pages -->
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
+                <!-- Add more project links as needed -->
+            </ul>
+        </nav>
+    </sidebar>
+
+    <main>
+        <!-- Display information pertinent to the selected page here -->
+        <h2>Welcome to My Portfolio</h2>
+        <p>Select a project from the sidebar to view more details.</p>
+    </main>
 </body>
 </html>
