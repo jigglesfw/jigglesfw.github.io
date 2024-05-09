@@ -17,6 +17,9 @@
             color: #fff;
             padding: 20px;
             text-align: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1; /* Ensure header stays on top */
         }
 
         sidebar {
@@ -27,12 +30,14 @@
             top: 0;
             left: 0;
             overflow-x: hidden;
-            padding-top: 20px;
+            padding-top: 70px; /* Adjust to accommodate the header height */
+            z-index: 0; /* Ensure sidebar stays below header */
         }
 
         main {
             margin-left: 220px; /* Adjust according to sidebar width */
             padding: 20px;
+            margin-top: 70px; /* Adjust to accommodate the header height */
         }
     </style>
 </head>
