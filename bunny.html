@@ -33,6 +33,13 @@
         controls.screenSpacePanning = false;
         controls.maxPolarAngle = Math.PI / 2;
 
+        // Configure mouse button assignments
+        controls.mouseButtons = {
+            LEFT: THREE.MOUSE.ROTATE,
+            MIDDLE: THREE.MOUSE.PAN,
+            RIGHT: THREE.MOUSE.DOLLY
+        };
+
         // Add a simple light
         var light = new THREE.DirectionalLight(0xffffff);
         light.position.set(1, 1, 1).normalize();
