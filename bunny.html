@@ -63,6 +63,10 @@
             }, function (error) {
                 console.error('An error happened', error);
             });
+        }, function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        }, function (error) {
+            console.error('An error happened', error);
         });
 
         camera.position.z = 5;
