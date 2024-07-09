@@ -16,6 +16,7 @@
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/OBJLoader.js"></script>
     <script>
         // Basic Three.js setup
@@ -24,6 +25,13 @@
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
+
+        // OrbitControls setup
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true; // optional, for smooth damping
+        controls.dampingFactor = 0.25;
+        controls.screenSpacePanning = false;
+        controls.maxPolarAngle = Math.PI / 2;
 
         // Add a simple light
         var light = new THREE.DirectionalLight(0xffffff);
@@ -45,6 +53,7 @@
         // Animation loop
         var animate = function () {
             requestAnimationFrame(animate);
+            controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
             renderer.render(scene, camera);
         };
         animate();
