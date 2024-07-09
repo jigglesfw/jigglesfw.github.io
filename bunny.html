@@ -57,16 +57,15 @@
 
             // Load the OBJ file and apply the materials
             var objLoader = new THREE.OBJLoader();
-            objLoader.setMaterials(materials);
             objLoader.setPath('OBJs/');
             objLoader.load('Bunny.obj', function (object) {
-                scene.add(object);
                 object.traverse(function (child) {
                     if (child.isMesh) {
-                        console.log(child.material);
-                        child.material.needsUpdate = true; // Ensure the material updates
+                        child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
                     }
                 });
+                scene.add(object);
+            });
             }, function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             }, function (error) {
