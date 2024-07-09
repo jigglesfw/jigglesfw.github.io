@@ -63,20 +63,20 @@
             objLoader.setMaterials(materials);
             objLoader.setPath('OBJs/');
             objLoader.load('Bunny.obj', function (object) {
-                // Traverse the object and log materials
                 object.traverse(function (child) {
                     if (child.isMesh) {
                         console.log('Before material applied:', child.material);
 
-                        // Debugging: Apply a default material if the material from the MTL file is not working
+                        // If material is black, apply a simple material
                         if (!child.material.map) {
-                            console.warn('Texture not applied, applying debug material.');
                             child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
                         } else {
                             console.log('Texture applied:', child.material.map);
                         }
 
                         child.material.needsUpdate = true; // Ensure the material updates
+
+                        console.log('After material applied:', child.material);
                     }
                 });
 
