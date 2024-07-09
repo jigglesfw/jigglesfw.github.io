@@ -6492,7 +6492,7 @@ vn -0.503155 0.167145 0.847878
 vn -0.543737 0.239098 0.804476
 s off
 g model:BunnyHair model:geo Geometry Group
-usemtl initialShadingGroup
+usemtl BunnyLOL:initialShadingGroup
 f 1/3/1 20/26/2 42/58/3 41/55/4
 f 3/29/5 19/28/6 25/21/7 14/22/8
 f 5/24/9 18/23/10 28/32/11 29/31/12
