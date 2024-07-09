@@ -65,9 +65,6 @@
                     if (child.isMesh) {
                         console.log(child.material);
                         child.material.needsUpdate = true; // Ensure the material updates
-
-                        // Apply debug material
-                        child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
                     }
                 });
             }, function (xhr) {
