@@ -41,10 +41,13 @@
             RIGHT: THREE.MOUSE.DOLLY
         };
 
-        // Add a simple light
-        var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(1, 1, 1).normalize();
-        scene.add(light);
+        // Add lighting
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
 
         // Load the MTL file
         var mtlLoader = new THREE.MTLLoader();
@@ -58,6 +61,12 @@
             objLoader.setPath('OBJs/');
             objLoader.load('Bunny.obj', function (object) {
                 scene.add(object);
+                object.traverse(function (child) {
+                    if (child.isMesh) {
+                        console.log(child.material);
+                        child.material.needsUpdate = true; // Ensure the material updates
+                    }
+                });
             }, function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             }, function (error) {
