@@ -7,10 +7,16 @@
     <style>
         body {
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
         }
 
         canvas {
             display: block;
+            border: 2px solid #fff;
         }
     </style>
 </head>
@@ -128,10 +134,22 @@
             if (isMiddleMouseDown) {
                 // Pan camera
                 var panSpeed = 0.01;
-                var offset = new THREE.Vector3(-deltaX * panSpeed, deltaY * panSpeed, 0); // Invert panning direction on both axes
-                offset.applyQuaternion(camera.quaternion);
-                camera.position.add(offset);
-                target.add(offset);
+                var panX = deltaX * panSpeed;
+                var panY = -deltaY * panSpeed; // Invert Y-axis
+
+                // Apply panning to the camera position
+                var panOffset = new THREE.Vector3();
+                panOffset.setFromMatrixColumn(camera.matrix, 0); // get X column of matrix
+                panOffset.multiplyScalar(panX);
+
+                var panOffsetY = new THREE.Vector3();
+                panOffsetY.setFromMatrixColumn(camera.matrix, 1); // get Y column of matrix
+                panOffsetY.multiplyScalar(panY);
+
+                camera.position.add(panOffset);
+                camera.position.add(panOffsetY);
+                target.add(panOffset);
+                target.add(panOffsetY);
             } else if (isLeftMouseDown || isRightMouseDown) {
                 // Rotate camera around target
                 var rotateSpeed = 0.005;
