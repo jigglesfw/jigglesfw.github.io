@@ -16,7 +16,6 @@
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/MTLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/OBJLoader.js"></script>
     <script>
@@ -26,53 +25,6 @@
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-
-        // OrbitControls setup with custom panning
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true; // optional, for smooth damping
-        controls.dampingFactor = 0.25;
-        controls.screenSpacePanning = false;
-        controls.maxPolarAngle = Math.PI / 2;
-
-        // Custom pan function
-        controls.pan = function (deltaX, deltaY) {
-            var offset = new THREE.Vector3();
-            var pan = new THREE.Vector3();
-
-            // Copy the camera position
-            offset.copy(this.object.position).sub(this.target);
-            var targetDistance = offset.length();
-
-            // Calculate the pan offset
-            targetDistance *= Math.tan((this.object.fov / 2) * Math.PI / 180.0);
-
-            // Pan along the z-axis
-            pan.set(0, deltaY, 0);
-
-            // Update the camera and target positions
-            this.object.position.add(pan);
-            this.target.add(pan);
-        };
-
-        // Override the handleMouseMove function
-        controls.handleMouseMoveMiddle = function (event) {
-            if (this.enabled === false) return;
-
-            event.preventDefault();
-
-            var element = this.domElement === document ? this.domElement.body : this.domElement;
-
-            if (this.state === this.STATE.PAN) {
-                this.pan(0, - (event.movementY || event.mozMovementY || event.webkitMovementY) * 0.001 * (this.object.position.distanceTo(this.target) / element.clientHeight));
-            }
-        };
-
-        // Configure mouse button assignments
-        controls.mouseButtons = {
-            LEFT: THREE.MOUSE.ROTATE,
-            MIDDLE: THREE.MOUSE.PAN,
-            RIGHT: THREE.MOUSE.DOLLY
-        };
 
         // Add lighting
         var directionalLight = new THREE.DirectionalLight(0xffffff, 2); // Increased intensity
@@ -134,10 +86,70 @@
 
         camera.position.z = 5;
 
+        // Custom camera control variables
+        var isMiddleMouseDown = false;
+        var isLeftMouseDown = false;
+        var isRightMouseDown = false;
+        var lastMouseX, lastMouseY;
+
+        // Mouse event handlers
+        function onMouseDown(event) {
+            if (event.button === 1) { // Middle mouse button
+                isMiddleMouseDown = true;
+            } else if (event.button === 0) { // Left mouse button
+                isLeftMouseDown = true;
+            } else if (event.button === 2) { // Right mouse button
+                isRightMouseDown = true;
+            }
+            lastMouseX = event.clientX;
+            lastMouseY = event.clientY;
+        }
+
+        function onMouseUp(event) {
+            if (event.button === 1) { // Middle mouse button
+                isMiddleMouseDown = false;
+            } else if (event.button === 0) { // Left mouse button
+                isLeftMouseDown = false;
+            } else if (event.button === 2) { // Right mouse button
+                isRightMouseDown = false;
+            }
+        }
+
+        function onMouseMove(event) {
+            var deltaX = event.clientX - lastMouseX;
+            var deltaY = event.clientY - lastMouseY;
+
+            if (isMiddleMouseDown) {
+                // Pan camera
+                var panSpeed = 0.01;
+                camera.position.x -= deltaX * panSpeed;
+                camera.position.y += deltaY * panSpeed;
+            } else if (isLeftMouseDown || isRightMouseDown) {
+                // Rotate camera
+                var rotateSpeed = 0.005;
+                camera.rotation.y -= deltaX * rotateSpeed;
+                camera.rotation.x -= deltaY * rotateSpeed;
+            }
+
+            lastMouseX = event.clientX;
+            lastMouseY = event.clientY;
+        }
+
+        function onMouseWheel(event) {
+            // Zoom in/out
+            var zoomSpeed = 0.1;
+            camera.position.z += event.deltaY * zoomSpeed;
+        }
+
+        // Add event listeners
+        document.addEventListener('mousedown', onMouseDown, false);
+        document.addEventListener('mouseup', onMouseUp, false);
+        document.addEventListener('mousemove', onMouseMove, false);
+        document.addEventListener('wheel', onMouseWheel, false);
+
         // Animation loop
         var animate = function () {
             requestAnimationFrame(animate);
-            controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
             renderer.render(scene, camera);
         };
         animate();
