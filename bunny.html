@@ -72,11 +72,13 @@
                             child.material.color.set(0x888888); // Set to a default grey color
                         }
 
-                        // If material is black, apply a simple material
-                        if (!child.material.map) {
-                            child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
+                        // Apply transparency properties if texture has alpha
+                        if (child.material.map) {
+                            child.material.transparent = true;
+                            child.material.opacity = 1;
+                            child.material.alphaTest = 0.5; // Adjust alphaTest as needed
                         } else {
-                            console.log('Texture applied:', child.material.map);
+                            child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
                         }
 
                         child.material.needsUpdate = true; // Ensure the material updates
