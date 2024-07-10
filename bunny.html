@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embed OBJ with Three.js</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/MTLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/OBJLoader.js"></script>
+    <script>
+        // Basic Three.js setup
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add lighting
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 2); // Increased intensity
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        var ambientLight = new THREE.AmbientLight(0xffffff, 1); // Increased intensity
+        scene.add(ambientLight);
+
+        // Load the MTL file
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.setPath('OBJs/');
+        mtlLoader.load('Bunny.mtl', function (materials) {
+            materials.preload();
+
+            // Debugging: Log loaded materials
+            console.log('Materials loaded:', materials);
+
+            // Load the OBJ file and apply the materials
+            var objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.setPath('OBJs/');
+            objLoader.load('Bunny.obj', function (object) {
+                object.traverse(function (child) {
+                    if (child.isMesh) {
+                        console.log('Before material applied:', child.material);
+
+                        // Ensure material color is not black
+                        if (child.material.color.equals(new THREE.Color(0, 0, 0))) {
+                            child.material.color.set(0x888888); // Set to a default grey color
+                        }
+
+                        // Apply transparency properties if texture has alpha
+                        if (child.material.map) {
+                            child.material.transparent = true;
+                            child.material.opacity = 1;
+                            child.material.alphaTest = 0.5; // Adjust alphaTest as needed
+                        } else {
+                            child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
+                        }
+
+                        child.material.needsUpdate = true; // Ensure the material updates
+
+                        console.log('After material applied:', child.material);
+                    }
+                });
+
+                scene.add(object);
+            }, function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            }, function (error) {
+                console.error('An error happened', error);
+            });
+        }, function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        }, function (error) {
+            console.error('An error happened', error);
+        });
+
+        // Camera initial position
+        camera.position.set(0, 1, 5);
+        var target = new THREE.Vector3(0, 1, 0); // Adjust target position to the center of the 3D model
+        var distance = 5; // Initial distance from the target
+
+        // Custom camera control variables
+        var isMiddleMouseDown = false;
+        var isLeftMouseDown = false;
+        var isRightMouseDown = false;
+        var lastMouseX, lastMouseY;
+
+        var spherical = new THREE.Spherical();
+        spherical.setFromVector3(camera.position.clone().sub(target));
+
+        // Mouse event handlers
+        function onMouseDown(event) {
+            if (event.button === 1) { // Middle mouse button
+                isMiddleMouseDown = true;
+            } else if (event.button === 0) { // Left mouse button
+                isLeftMouseDown = true;
+            } else if (event.button === 2) { // Right mouse button
+                isRightMouseDown = true;
+            }
+            lastMouseX = event.clientX;
+            lastMouseY = event.clientY;
+        }
+
+        function onMouseUp(event) {
+            if (event.button === 1) { // Middle mouse button
+                isMiddleMouseDown = false;
+            } else if (event.button === 0) { // Left mouse button
+                isLeftMouseDown = false;
+            } else if (event.button === 2) { // Right mouse button
+                isRightMouseDown = false;
+            }
+        }
+
+        function onMouseMove(event) {
+            var deltaX = event.clientX - lastMouseX;
+            var deltaY = event.clientY - lastMouseY;
+
+            if (isMiddleMouseDown) {
+                // Pan camera
+                var panSpeed = -0.01;
+                var offset = new THREE.Vector3(deltaX * panSpeed, -deltaY * panSpeed, 0);
+                offset.applyQuaternion(camera.quaternion);
+                camera.position.add(offset);
+                target.add(offset);
+            } else if (isLeftMouseDown || isRightMouseDown) {
+                // Rotate camera around target
+                var rotateSpeed = 0.005;
+                spherical.theta -= deltaX * rotateSpeed;
+                spherical.phi -= deltaY * rotateSpeed;
+
+                spherical.phi = Math.max(0.01, Math.min(Math.PI - 0.01, spherical.phi));
+
+                camera.position.setFromSpherical(spherical).add(target);
+                camera.lookAt(target);
+            }
+
+            lastMouseX = event.clientX;
+            lastMouseY = event.clientY;
+        }
+
+        function onMouseWheel(event) {
+            // Zoom in/out
+            var zoomSpeed = 0.1;
+            distance += event.deltaY * zoomSpeed;
+            distance = Math.max(1, Math.min(100, distance));
+
+            spherical.setFromVector3(camera.position.clone().sub(target));
+            spherical.radius = distance;
+            camera.position.setFromSpherical(spherical).add(target);
+            camera.lookAt(target);
+        }
+
+        // Add event listeners
+        document.addEventListener('mousedown', onMouseDown, false);
+        document.addEventListener('mouseup', onMouseUp, false);
+        document.addEventListener('mousemove', onMouseMove, false);
+        document.addEventListener('wheel', onMouseWheel, false);
+
+        // Animation loop
+        var animate = function () {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        };
+        animate();
+    </script>
+</body>
+</html>
