@@ -122,13 +122,13 @@
         }
 
         function onMouseMove(event) {
-            var deltaX = (event.clientX - lastMouseX)*-1;
-            var deltaY = (event.clientY - lastMouseY)*-1;
+            var deltaX = event.clientX - lastMouseX;
+            var deltaY = event.clientY - lastMouseY;
 
             if (isMiddleMouseDown) {
                 // Pan camera
                 var panSpeed = 0.01;
-                var offset = new THREE.Vector3(deltaX * panSpeed, -deltaY * panSpeed, 0);
+                var offset = new THREE.Vector3(-deltaX * panSpeed, deltaY * panSpeed, 0); // Invert panning direction
                 offset.applyQuaternion(camera.quaternion);
                 camera.position.add(offset);
                 target.add(offset);
