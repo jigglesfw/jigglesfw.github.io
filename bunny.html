@@ -63,7 +63,7 @@
             var element = this.domElement === document ? this.domElement.body : this.domElement;
 
             if (this.state === this.STATE.PAN) {
-                this.pan(- (event.movementY || event.mozMovementY || event.webkitMovementY) * 0.001 * (this.object.position.distanceTo(this.target) / element.clientHeight), 0 );
+                this.pan(0, - (event.movementY || event.mozMovementY || event.webkitMovementY) * 0.001 * (this.object.position.distanceTo(this.target) / element.clientHeight));
             }
         };
 
