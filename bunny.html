@@ -84,13 +84,19 @@
             console.error('An error happened', error);
         });
 
-        camera.position.z = 5;
+        // Camera initial position
+        camera.position.set(0, 1, 5);
+        var target = new THREE.Vector3(0, 1, 0); // Adjust target position to the center of the 3D model
+        var distance = 5; // Initial distance from the target
 
         // Custom camera control variables
         var isMiddleMouseDown = false;
         var isLeftMouseDown = false;
         var isRightMouseDown = false;
         var lastMouseX, lastMouseY;
+
+        var spherical = new THREE.Spherical();
+        spherical.setFromVector3(camera.position.clone().sub(target));
 
         // Mouse event handlers
         function onMouseDown(event) {
@@ -122,13 +128,20 @@
             if (isMiddleMouseDown) {
                 // Pan camera
                 var panSpeed = 0.01;
-                camera.position.x -= deltaX * panSpeed;
-                camera.position.y += deltaY * panSpeed;
+                var offset = new THREE.Vector3(deltaX * panSpeed, -deltaY * panSpeed, 0);
+                offset.applyQuaternion(camera.quaternion);
+                camera.position.add(offset);
+                target.add(offset);
             } else if (isLeftMouseDown || isRightMouseDown) {
-                // Rotate camera
+                // Rotate camera around target
                 var rotateSpeed = 0.005;
-                camera.rotation.y -= deltaX * rotateSpeed;
-                camera.rotation.x -= deltaY * rotateSpeed;
+                spherical.theta -= deltaX * rotateSpeed;
+                spherical.phi -= deltaY * rotateSpeed;
+
+                spherical.phi = Math.max(0.01, Math.min(Math.PI - 0.01, spherical.phi));
+
+                camera.position.setFromSpherical(spherical).add(target);
+                camera.lookAt(target);
             }
 
             lastMouseX = event.clientX;
@@ -138,7 +151,13 @@
         function onMouseWheel(event) {
             // Zoom in/out
             var zoomSpeed = 0.1;
-            camera.position.z += event.deltaY * zoomSpeed;
+            distance += event.deltaY * zoomSpeed;
+            distance = Math.max(1, Math.min(100, distance));
+
+            spherical.setFromVector3(camera.position.clone().sub(target));
+            spherical.radius = distance;
+            camera.position.setFromSpherical(spherical).add(target);
+            camera.lookAt(target);
         }
 
         // Add event listeners
