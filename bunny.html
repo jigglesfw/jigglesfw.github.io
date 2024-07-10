@@ -35,30 +35,36 @@
         controls.maxPolarAngle = Math.PI / 2;
 
         // Custom pan function
-        controls.handleMouseMovePan = function (event) {
-            if (this.enabled === false) return;
-
-            var element = this.domElement === document ? this.domElement.body : this.domElement;
-
-            this.pan(0, - (event.movementY || event.mozMovementY || event.webkitMovementY) * 0.001 * (this.object.position.distanceTo(this.target) / element.clientHeight));
-        };
-
-        // Override the pan function to move along the z-axis
         controls.pan = function (deltaX, deltaY) {
             var offset = new THREE.Vector3();
             var pan = new THREE.Vector3();
 
+            // Copy the camera position
             offset.copy(this.object.position).sub(this.target);
             var targetDistance = offset.length();
 
-            // half of the fov is center to top of screen
+            // Calculate the pan offset
             targetDistance *= Math.tan((this.object.fov / 2) * Math.PI / 180.0);
 
-            // Adjust for different screen coordinates
-            pan.set(0, 0, deltaY); // Pan up/down along z-axis
+            // Pan along the z-axis
+            pan.set(0, 0, deltaY);
 
+            // Update the camera and target positions
             this.object.position.add(pan);
             this.target.add(pan);
+        };
+
+        // Override the handleMouseMove function
+        controls.handleMouseMoveMiddle = function (event) {
+            if (this.enabled === false) return;
+
+            event.preventDefault();
+
+            var element = this.domElement === document ? this.domElement.body : this.domElement;
+
+            if (this.state === this.STATE.PAN) {
+                this.pan(0, - (event.movementY || event.mozMovementY || event.webkitMovementY) * 0.001 * (this.object.position.distanceTo(this.target) / element.clientHeight));
+            }
         };
 
         // Configure mouse button assignments
