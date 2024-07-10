@@ -7,16 +7,62 @@
     <style>
         body {
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .iframe-container {
+            position: relative;
+            display: inline-block;
         }
 
         iframe {
-            width: 800px;
-            height: 600px;
-            border: none;
+            border: 2px solid black; /* Add a border */
+            resize: both; /* Enable resizing */
+            overflow: auto; /* Handle overflow */
+            width: 800px; /* Initial width */
+            height: 600px; /* Initial height */
+            margin: auto; /* Center the iframe */
+        }
+
+        .resizer {
+            width: 10px;
+            height: 10px;
+            background: gray;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            cursor: se-resize;
         }
     </style>
 </head>
 <body>
-    <iframe src="model-viewer.html"></iframe>
+    <div class="iframe-container">
+        <iframe src="model-viewer.html"></iframe>
+        <div class="resizer"></div>
+    </div>
+    <script>
+        const resizer = document.querySelector('.resizer');
+        const iframeContainer = document.querySelector('.iframe-container');
+        const iframe = document.querySelector('iframe');
+
+        resizer.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            window.addEventListener('mousemove', resize);
+            window.addEventListener('mouseup', stopResize);
+        });
+
+        function resize(e) {
+            iframe.style.width = (e.clientX - iframeContainer.offsetLeft) + 'px';
+            iframe.style.height = (e.clientY - iframeContainer.offsetTop) + 'px';
+        }
+
+        function stopResize() {
+            window.removeEventListener('mousemove', resize);
+            window.removeEventListener('mouseup', stopResize);
+        }
+    </script>
 </body>
 </html>
