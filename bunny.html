@@ -135,7 +135,7 @@
                 // Pan camera
                 var panSpeed = 0.01;
                 var offset = new THREE.Vector3(-deltaX * panSpeed, deltaY * panSpeed, 0); // Invert panning direction on both axes
-                offset.applyQuaternion(camera.quaternion);
+                offset.applyQuaternion(-camera.quaternion);
                 camera.position.add(offset);
                 target.add(offset);
             } else if (isLeftMouseDown || isRightMouseDown) {
