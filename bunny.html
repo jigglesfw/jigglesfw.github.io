@@ -47,7 +47,7 @@
             targetDistance *= Math.tan((this.object.fov / 2) * Math.PI / 180.0);
 
             // Pan along the z-axis
-            pan.set(0, 0, deltaY);
+            pan.set(0, deltaY, 0);
 
             // Update the camera and target positions
             this.object.position.add(pan);
