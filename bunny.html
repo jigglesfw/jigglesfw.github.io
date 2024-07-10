@@ -134,8 +134,8 @@
             if (isMiddleMouseDown) {
                 // Pan camera
                 var panSpeed = 0.01;
-                var panX = deltaX * panSpeed;
-                var panY = -deltaY * panSpeed; // Invert Y-axis
+                var panX = -deltaX * panSpeed; // Invert X-axis
+                var panY = deltaY * panSpeed; // Invert Y-axis
 
                 // Apply panning to the camera position
                 var panOffset = new THREE.Vector3();
