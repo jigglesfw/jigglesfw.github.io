@@ -35,22 +35,18 @@
         controls.maxPolarAngle = Math.PI / 2;
 
         // Custom pan function
-        controls.handleMouseMoveMiddle = function (event) {
+        controls.handleMouseMovePan = function (event) {
             if (this.enabled === false) return;
-
-            event.preventDefault();
 
             var element = this.domElement === document ? this.domElement.body : this.domElement;
 
-            if (this.state === this.STATE.MIDDLE) {
-                this.pan(0, this.getPanSpeed() * 2 * (event.movementY || event.mozMovementY || event.webkitMovementY) / element.clientHeight);
-            }
+            this.pan(0, - (event.movementY || event.mozMovementY || event.webkitMovementY) * 0.001 * (this.object.position.distanceTo(this.target) / element.clientHeight));
         };
 
         // Override the pan function to move along the z-axis
         controls.pan = function (deltaX, deltaY) {
             var offset = new THREE.Vector3();
-            var panUp = new THREE.Vector3();
+            var pan = new THREE.Vector3();
 
             offset.copy(this.object.position).sub(this.target);
             var targetDistance = offset.length();
@@ -58,12 +54,11 @@
             // half of the fov is center to top of screen
             targetDistance *= Math.tan((this.object.fov / 2) * Math.PI / 180.0);
 
-            // We actually don't use screenSpacePanning set to false, because otherwise it would pan along the screen plane
-            panUp.setFromMatrixColumn(this.object.matrix, 1); // get X column of objectMatrix
-            panUp.multiplyScalar(deltaY);
+            // Adjust for different screen coordinates
+            pan.set(0, 0, deltaY); // Pan up/down along z-axis
 
-            this.object.position.add(panUp);
-            this.target.add(panUp);
+            this.object.position.add(pan);
+            this.target.add(pan);
         };
 
         // Configure mouse button assignments
