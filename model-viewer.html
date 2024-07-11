@@ -12,19 +12,53 @@
         canvas {
             display: block;
         }
+
+        #backgroundSelector {
+            position: absolute;
+            top: 10px;
+            left: 120px;
+            z-index: 100;
+            padding: 5px;
+        }
+
+        #selectedModel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
+    <select id="backgroundSelector">
+        <option value="0x888888" selected>Gray</option>
+        <option value="0x000000">Black</option>
+        <option value="0xFFFFFF">White</option>
+        <option value="0xFF0000">Red</option>
+        <option value="0x00FF00">Green</option>
+        <option value="0x0000FF">Blue</option>
+    </select>
+
+    <select id="selectedModel">
+        <option value="Bunny">Bunny</option>
+        <option value="Placeholder">Placeholder</option> 
+    </select>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/MTLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/OBJLoader.js"></script>
     <script>
         // Basic Three.js setup
+        var loadedObject = null;
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
+
+        // Set initial background color to gray
+        scene.background = new THREE.Color(0x888888);
 
         // Add lighting
         var directionalLight = new THREE.DirectionalLight(0xffffff, 2); // Increased intensity
@@ -34,55 +68,63 @@
         var ambientLight = new THREE.AmbientLight(0xffffff, 1); // Increased intensity
         scene.add(ambientLight);
 
-        // Load the MTL file
-        var mtlLoader = new THREE.MTLLoader();
-        mtlLoader.setPath('OBJs/');
-        mtlLoader.load('Bunny.mtl', function (materials) {
-            materials.preload();
+        loadModel();
 
-            // Debugging: Log loaded materials
-            console.log('Materials loaded:', materials);
+        function loadModel() {
+            // Load the MTL file
+            var e = document.getElementById("selectedModel");
+            var value = e.value;
+            var text = e.options[e.selectedIndex].text;
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setPath('OBJs/');
+            mtlLoader.load(text + ".mtl", function (materials) {
+                materials.preload();
 
-            // Load the OBJ file and apply the materials
-            var objLoader = new THREE.OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.setPath('OBJs/');
-            objLoader.load('Bunny.obj', function (object) {
-                object.traverse(function (child) {
-                    if (child.isMesh) {
-                        console.log('Before material applied:', child.material);
+                // Debugging: Log loaded materials
+                console.log('Materials loaded:', materials);
 
-                        // Ensure material color is not black
-                        if (child.material.color.equals(new THREE.Color(0, 0, 0))) {
-                            child.material.color.set(0x888888); // Set to a default grey color
+                // Load the OBJ file and apply the materials
+                var objLoader = new THREE.OBJLoader();
+                objLoader.setMaterials(materials);
+                objLoader.setPath('OBJs/');
+                objLoader.load(text + ".obj", function (object) {
+                    loadedObject = object;
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            console.log('Before material applied:', child.material);
+
+                            // Ensure material color is not black
+                            if (child.material.color.equals(new THREE.Color(0, 0, 0))) {
+                                child.material.color.set(0x888888); // Set to a default grey color
+                            }
+
+                            // Apply transparency properties if texture has alpha
+                            if (child.material.map) {
+                                child.material.transparent = true;
+                                child.material.opacity = 1;
+                                child.material.alphaTest = 0.5; // Adjust alphaTest as needed
+                            } else {
+                                child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
+                            }
+
+                            child.material.needsUpdate = true; // Ensure the material updates
+
+                            console.log('After material applied:', child.material);
                         }
+                    });
 
-                        // Apply transparency properties if texture has alpha
-                        if (child.material.map) {
-                            child.material.transparent = true;
-                            child.material.opacity = 1;
-                            child.material.alphaTest = 0.5; // Adjust alphaTest as needed
-                        } else {
-                            child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
-                        }
-
-                        child.material.needsUpdate = true; // Ensure the material updates
-
-                        console.log('After material applied:', child.material);
-                    }
+                    scene.add(object);
+                }, function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                }, function (error) {
+                    console.error('An error happened', error);
                 });
-
-                scene.add(object);
             }, function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             }, function (error) {
                 console.error('An error happened', error);
             });
-        }, function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        }, function (error) {
-            console.error('An error happened', error);
-        });
+        }
 
         // Camera initial position
         camera.position.set(0, 1, 5);
@@ -128,7 +170,7 @@
             if (isMiddleMouseDown) {
                 // Pan camera
                 var panSpeed = 0.01;
-                var offset = new THREE.Vector3(-deltaX * panSpeed, deltaY * panSpeed, 0);
+                var offset = new THREE.Vector3(-deltaX * panSpeed, deltaY * panSpeed, 0); // Invert panning direction
                 offset.applyQuaternion(camera.quaternion);
                 camera.position.add(offset);
                 target.add(offset);
@@ -165,6 +207,19 @@
         document.addEventListener('mouseup', onMouseUp, false);
         document.addEventListener('mousemove', onMouseMove, false);
         document.addEventListener('wheel', onMouseWheel, false);
+        
+        var selectedModel = document.getElementById('selectedModel');
+        selectedModel.addEventListener('change', function(event) {
+            scene.remove(loadedObject);
+            loadModel();
+        });
+
+        // Background color change event
+        var backgroundSelector = document.getElementById('backgroundSelector');
+        backgroundSelector.addEventListener('change', function(event) {
+            var color = parseInt(event.target.value);
+            scene.background = new THREE.Color(color);
+        });
 
         // Animation loop
         var animate = function () {
