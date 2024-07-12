@@ -92,6 +92,13 @@
                 side: THREE.DoubleSide
             };
 
+            if (materialProps.map) {
+                // Turn off texture filtering
+                materialProps.map.minFilter = THREE.NearestFilter;
+                materialProps.map.magFilter = THREE.NearestFilter;
+                materialProps.map.needsUpdate = true;
+            }
+
             if (shadingType === 'Basic') {
                 materialProps.color.multiplyScalar(2); // Make the color 50% brighter
             }
@@ -291,4 +298,3 @@
     </script>
 </body>
 </html>
-
