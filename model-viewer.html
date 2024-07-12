@@ -146,6 +146,11 @@
                 objLoader.setMaterials(materials);
                 objLoader.setPath('OBJs/');
                 objLoader.load(text + ".obj", function (object) {
+                    const center = new THREE.Vector3();
+                    var box = new THREE.Box3().setFromObject(object);
+                    let radius = box.getBoundingSphere(new THREE.Sphere(center)).radius;
+                    let scale = 3/radius;
+                    object.scale.multiplyScalar(scale);
                     loadedObject = object;
                     object.traverse(function (child) {
                         if (child.isMesh) {
@@ -180,8 +185,8 @@
         }
 
         // Camera initial position
-        camera.position.set(0, 1, 5);
-        var target = new THREE.Vector3(0, 1, 0); // Adjust target position to the center of the 3D model
+        camera.position.set(0, 2, 5);
+        var target = new THREE.Vector3(0, 2, 0); // Adjust target position to the center of the 3D model
         var distance = 5; // Initial distance from the target
 
         // Custom camera control variables
@@ -246,7 +251,7 @@
 
         function onMouseWheel(event) {
             // Zoom in/out
-            var zoomSpeed = 0.1;
+            var zoomSpeed = 0.01;
             distance += event.deltaY * zoomSpeed;
             distance = Math.max(1, Math.min(100, distance));
 
