@@ -324,7 +324,7 @@
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
         };
-        animate();
+        
         
         window.addEventListener('resize', function() {
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -339,13 +339,14 @@
                 camera.updateProjectionMatrix();
             }
         });
-        
+
         // Disable the default context menu on right-click
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
         });
         // Initial model load
         loadModel();
+        animate();
     </script>
 </body>
 </html>
