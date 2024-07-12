@@ -67,7 +67,9 @@
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-
+        document.addEventListener('keydown', onKeyDown, false);
+        document.addEventListener('keyup', onKeyUp, false);
+        
         // Set initial background color to gray
         scene.background = new THREE.Color(0x888888);
 
@@ -191,9 +193,9 @@
         var spherical = new THREE.Spherical();
         spherical.setFromVector3(camera.position.clone().sub(target));
 
-        // Mouse event handlers
+        // Modify the onMouseDown function
         function onMouseDown(event) {
-            if (event.button === 1) { // Middle mouse button
+            if (event.button === 1) { // Middle mouse button or spacebar
                 isMiddleMouseDown = true;
             } else if (event.button === 0) { // Left mouse button
                 isLeftMouseDown = true;
@@ -204,8 +206,9 @@
             lastMouseY = event.clientY;
         }
 
+        // Modify the onMouseUp function
         function onMouseUp(event) {
-            if (event.button === 1) { // Middle mouse button
+            if (event.button === 1) { // Middle mouse button or spacebar
                 isMiddleMouseDown = false;
             } else if (event.button === 0) { // Left mouse button
                 isLeftMouseDown = false;
@@ -213,7 +216,7 @@
                 isRightMouseDown = false;
             }
         }
-
+            
         function onMouseMove(event) {
             var deltaX = event.clientX - lastMouseX;
             var deltaY = event.clientY - lastMouseY;
@@ -286,13 +289,26 @@
             scene.background = new THREE.Color(color);
         });
 
+        // Add event listeners for the spacebar key
+        function onKeyDown(event) {
+            if (event.code === 'Space') {
+                isMiddleMouseDown = true;
+            }
+        }
+
+        function onKeyUp(event) {
+            if (event.code === 'Space') {
+                isMiddleMouseDown = false; 
+            }
+        }
+
         // Animation loop
         var animate = function () {
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
         };
         animate();
-
+        
         // Initial model load
         loadModel();
     </script>
