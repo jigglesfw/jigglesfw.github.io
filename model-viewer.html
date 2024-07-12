@@ -13,20 +13,19 @@
             display: block;
         }
 
-        #backgroundSelector {
+        #backgroundSelector, #selectedModel, #shadingTypeSelector {
             position: absolute;
             top: 10px;
-            left: 120px;
             z-index: 100;
             padding: 5px;
         }
 
-        #selectedModel {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 100;
-            padding: 5px;
+        #backgroundSelector {
+            left: 120px;
+        }
+
+        #shadingTypeSelector {
+            left: 250px;
         }
     </style>
 </head>
@@ -42,7 +41,19 @@
 
     <select id="selectedModel">
         <option value="Bunny">Bunny</option>
-        <option value="Placeholder">Placeholder</option> 
+        <option value="Aurora">Aurora</option>
+        <option value="Dorak">Dorak</option>
+        <option value="Moth">Moth</option>
+        <option value="Ban">Ban</option>
+        <option value="Placeholder">Placeholder</option>
+    </select>
+
+    <select id="shadingTypeSelector">
+        <option value="Lambert" selected>Lambert</option>
+        <option value="Basic">Basic</option>
+        <option value="Phong">Phong</option>
+        <option value="Standard">Standard</option>
+        <option value="Toon">Toon</option>
     </select>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -68,7 +79,45 @@
         var ambientLight = new THREE.AmbientLight(0xffffff, 1); // Increased intensity
         scene.add(ambientLight);
 
-        loadModel();
+        var currentShadingType = 'Lambert';
+
+        function getMaterial(originalMaterial, shadingType) {
+            var newMaterial;
+            var materialProps = {
+                color: originalMaterial.color.clone(),
+                map: originalMaterial.map,
+                transparent: originalMaterial.transparent || true, // Ensure transparency is enabled
+                opacity: originalMaterial.opacity !== undefined ? originalMaterial.opacity : 1,
+                alphaTest: originalMaterial.alphaTest,
+                side: THREE.DoubleSide
+            };
+
+            if (shadingType === 'Basic') {
+                materialProps.color.multiplyScalar(2); // Make the color 50% brighter
+            }
+
+            switch (shadingType) {
+                case 'Basic':
+                    newMaterial = new THREE.MeshBasicMaterial(materialProps);
+                    break;
+                case 'Lambert':
+                    newMaterial = new THREE.MeshLambertMaterial(materialProps);
+                    break;
+                case 'Phong':
+                    newMaterial = new THREE.MeshPhongMaterial({ ...materialProps, shininess: 50 });
+                    break;
+                case 'Standard':
+                    newMaterial = new THREE.MeshStandardMaterial({ ...materialProps, metalness: 0.5, roughness: 0.5 });
+                    break;
+                case 'Toon':
+                    newMaterial = new THREE.MeshToonMaterial(materialProps);
+                    break;
+                default:
+                    newMaterial = new THREE.MeshStandardMaterial(materialProps);
+            }
+
+            return newMaterial;
+        }
 
         function loadModel() {
             // Load the MTL file
@@ -98,15 +147,10 @@
                                 child.material.color.set(0x888888); // Set to a default grey color
                             }
 
-                            // Apply transparency properties if texture has alpha
-                            if (child.material.map) {
-                                child.material.transparent = true;
-                                child.material.opacity = 1;
-                                child.material.alphaTest = 0.5; // Adjust alphaTest as needed
-                            } else {
-                                child.material = new THREE.MeshStandardMaterial({ color: 0x888888 });
-                            }
+                            // Store original material properties
+                            child.originalMaterial = child.material.clone();
 
+                            child.material = getMaterial(child.originalMaterial, currentShadingType);
                             child.material.needsUpdate = true; // Ensure the material updates
 
                             console.log('After material applied:', child.material);
@@ -214,6 +258,20 @@
             loadModel();
         });
 
+        // Shading type change event
+        var shadingTypeSelector = document.getElementById('shadingTypeSelector');
+        shadingTypeSelector.addEventListener('change', function(event) {
+            currentShadingType = event.target.value;
+            if (loadedObject) {
+                loadedObject.traverse(function (child) {
+                    if (child.isMesh && child.originalMaterial) {
+                        child.material = getMaterial(child.originalMaterial, currentShadingType);
+                        child.material.needsUpdate = true;
+                    }
+                });
+            }
+        });
+
         // Background color change event
         var backgroundSelector = document.getElementById('backgroundSelector');
         backgroundSelector.addEventListener('change', function(event) {
@@ -227,6 +285,10 @@
             renderer.render(scene, camera);
         };
         animate();
+
+        // Initial model load
+        loadModel();
     </script>
 </body>
 </html>
+
