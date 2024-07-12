@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embed Model Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .iframe-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        iframe {
+            border: 2px solid black; /* Add a border */
+            width: 800px; /* Initial width */
+            height: 600px; /* Initial height */
+            margin: auto; /* Center the iframe */
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 30px; /* Set width for the button */
+            height: 30px; /* Set height for the button */
+            background: url('fullscreen-icon.svg') no-repeat center center;
+            background-size: contain;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="iframe-container">
+        <iframe src="model-viewer.html"></iframe>
+        <button class="fullscreen-btn"></button>
+    </div>
+    <script>
+        const fullscreenBtn = document.querySelector('.fullscreen-btn');
+        const iframeContainer = document.querySelector('.iframe-container');
+        const iframe = document.querySelector('iframe');
+
+        fullscreenBtn.addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                iframeContainer.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement) {
+                iframe.style.width = '100vw';
+                iframe.style.height = '100vh';
+            } else {
+                iframe.style.width = '800px';
+                iframe.style.height = '600px';
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
