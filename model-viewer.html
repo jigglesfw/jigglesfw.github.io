@@ -31,7 +31,6 @@
 </head>
 <body>
     <div id="controls">
-
         <select id="selectedModel">
             <option value="Bunny">Bunny</option>
             <option value="Aurora">Aurora</option>
@@ -42,7 +41,6 @@
         </select>
 
         <select id="shadingTypeSelector">
-
             <option value="Basic" selected>Basic</option>
             <option value="Lambert">Lambert</option>
             <option value="Phong">Phong</option>
@@ -58,8 +56,6 @@
             <option value="0x00FF00">Green</option>
             <option value="0x0000FF">Blue</option>
         </select>
-
-
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -239,7 +235,7 @@
                 offset.applyQuaternion(camera.quaternion);
                 camera.position.add(offset);
                 target.add(offset);
-            } else if (isLeftMouseDown || isRightMouseDown) {
+            } else if (isLeftMouseDown) {
                 // Rotate camera around target
                 var rotateSpeed = 0.005;
                 spherical.theta -= deltaX * rotateSpeed;
@@ -249,6 +245,16 @@
 
                 camera.position.setFromSpherical(spherical).add(target);
                 camera.lookAt(target);
+            } else if (isRightMouseDown) {
+                // Rotate light source around target
+                var rotateSpeed = 0.005;
+                var lightSpherical = new THREE.Spherical().setFromVector3(directionalLight.position.clone().sub(target));
+                lightSpherical.theta -= deltaX * rotateSpeed;
+                lightSpherical.phi -= deltaY * rotateSpeed;
+
+                lightSpherical.phi = Math.max(0.01, Math.min(Math.PI - 0.01, lightSpherical.phi));
+
+                directionalLight.position.setFromSpherical(lightSpherical).add(target);
             }
 
             lastMouseX = event.clientX;
@@ -334,6 +340,10 @@
             }
         });
         
+        // Disable the default context menu on right-click
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
         // Initial model load
         loadModel();
     </script>
