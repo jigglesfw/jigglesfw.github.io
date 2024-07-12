@@ -7,54 +7,60 @@
     <style>
         body {
             margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
         }
 
         canvas {
             display: block;
         }
 
-        #backgroundSelector, #selectedModel, #shadingTypeSelector {
+        #controls {
             position: absolute;
             top: 10px;
-            z-index: 100;
-            padding: 5px;
+            left: 10px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+            padding: 10px;
+            border-radius: 5px;
         }
 
-        #backgroundSelector {
-            left: 120px;
-        }
-
-        #shadingTypeSelector {
-            left: 250px;
+        select {
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <select id="backgroundSelector">
-        <option value="0x888888" selected>Gray</option>
-        <option value="0x000000">Black</option>
-        <option value="0xFFFFFF">White</option>
-        <option value="0xFF0000">Red</option>
-        <option value="0x00FF00">Green</option>
-        <option value="0x0000FF">Blue</option>
-    </select>
+    <div id="controls">
 
-    <select id="selectedModel">
-        <option value="Bunny">Bunny</option>
-        <option value="Aurora">Aurora</option>
-        <option value="Dorak">Dorak</option>
-        <option value="Moth">Moth</option>
-        <option value="Ban">Ban</option>
-        <option value="Placeholder">Placeholder</option>
-    </select>
+        <select id="selectedModel">
+            <option value="Bunny">Bunny</option>
+            <option value="Aurora">Aurora</option>
+            <option value="Dorak">Dorak</option>
+            <option value="Moth">Moth</option>
+            <option value="Ban">Ban</option>
+            <option value="Placeholder">Placeholder</option>
+        </select>
 
-    <select id="shadingTypeSelector">
-        <option value="Lambert" selected>Lambert</option>
-        <option value="Basic">Basic</option>
-        <option value="Phong">Phong</option>
-        <option value="Standard">Standard</option>
-        <option value="Toon">Toon</option>
-    </select>
+        <select id="shadingTypeSelector">
+
+            <option value="Basic" selected>Basic</option>
+            <option value="Lambert">Lambert</option>
+            <option value="Phong">Phong</option>
+            <option value="Standard">Standard</option>
+            <option value="Toon">Toon</option>
+        </select>
+
+        <select id="backgroundSelector">
+            <option value="0x888888" selected>Gray</option>
+            <option value="0x000000">Black</option>
+            <option value="0xFFFFFF">White</option>
+            <option value="0xFF0000">Red</option>
+            <option value="0x00FF00">Green</option>
+            <option value="0x0000FF">Blue</option>
+        </select>
+
+
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/MTLLoader.js"></script>
@@ -81,7 +87,7 @@
         var ambientLight = new THREE.AmbientLight(0xffffff, 1); // Increased intensity
         scene.add(ambientLight);
 
-        var currentShadingType = 'Lambert';
+        var currentShadingType = 'Basic';
 
         function getMaterial(originalMaterial, shadingType) {
             var newMaterial;
