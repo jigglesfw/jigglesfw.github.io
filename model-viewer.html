@@ -39,10 +39,12 @@
             <option value="Ban">Ban</option>
             <option value="Aurora">Aurora</option>
             <option value="Kat">Kat</option>
+            <option value="Zalie">Zalie</option>
+            <option value="FullSkull">FullSkull</option>
         </select>
 
         <select id="shadingTypeSelector">
-            <option value="Basic" selected>Basic</option>
+            <option value="Basic">Basic</option>
             <option value="Lambert">Lambert</option>
             <option value="Phong">Phong</option>
             <option value="Standard">Standard</option>
@@ -123,6 +125,7 @@
                     break;
                 case 'Toon':
                     newMaterial = new THREE.MeshToonMaterial(materialProps);
+                    newMaterial.color.multiplyScalar(.75);
                     break;
                 default:
                     newMaterial = new THREE.MeshStandardMaterial(materialProps);
