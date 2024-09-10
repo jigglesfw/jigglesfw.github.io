@@ -31,6 +31,7 @@
 </head>
 <body>
     <div id="controls">
+        <!-- Existing selectors -->
         <select id="selectedModel">
             <option value="Bunny">Bunny</option>
             <option value="Dorak">Dorak</option>
@@ -42,7 +43,7 @@
             <option value="Zalie">Zalie</option>
             <option value="FullSkull">FullSkull</option>
         </select>
-
+    
         <select id="shadingTypeSelector">
             <option value="Basic">Basic</option>
             <option value="Lambert">Lambert</option>
@@ -50,7 +51,7 @@
             <option value="Standard">Standard</option>
             <option value="Toon">Toon</option>
         </select>
-
+    
         <select id="backgroundSelector">
             <option value="0x888888" selected>Gray</option>
             <option value="0x000000">Black</option>
@@ -59,7 +60,11 @@
             <option value="0x00FF00">Green</option>
             <option value="0x0000FF">Blue</option>
         </select>
+    
+        <!-- Add this wireframe toggle checkbox -->
+        <button id="applyWireframe">Wireframe</button>
     </div>
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/MTLLoader.js"></script>
@@ -87,6 +92,28 @@
         scene.add(ambientLight);
 
         var currentShadingType = 'Basic';
+        
+                // Create a blue wireframe material
+        var wireframeMaterial = new THREE.MeshBasicMaterial({
+            color: 0x0000ff, // Blue color
+            wireframe: true
+        });
+
+        function applyWireframe() {
+            if (loadedObject) {
+                loadedObject.traverse(function (child) {
+                    if (child.isMesh) {
+                        // Apply the wireframe material
+                        child.material = wireframeMaterial;
+                        child.material.needsUpdate = true; // Ensure the material updates
+                    }
+                });
+            }
+        }
+
+        // Wireframe apply button event listener
+        var wireframeButton = document.getElementById('applyWireframe');
+        wireframeButton.addEventListener('click', applyWireframe);
 
         function getMaterial(originalMaterial, shadingType) {
             var newMaterial;
