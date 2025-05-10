@@ -1,21 +1,20 @@
-newmtl Bunny20SXX:pasted__lambert5SG
+newmtl initialShadingGroup
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd Base_C.png
+map_Kd Twitter1C.png
 Ni 1.00
 newmtl lambert2SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd HairC.png
+map_Kd Twitter1C.png
 Ni 1.00
 newmtl lambert3SG
 illum 4
-Kd 0.00 0.00 0.00
+Kd 0.50 0.50 0.50
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd Face_C.png
 Ni 1.00

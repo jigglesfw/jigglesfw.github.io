@@ -32,7 +32,18 @@
 <body>
     <div id="controls">
         <!-- Existing selectors -->
-        <select id="selectedModel"></select>
+        <select id="selectedModel">
+            <option value="Bunny">Bunny</option>
+            <option value="Dorak">Dorak</option>
+            <option value="Moth">Moth</option>
+            <option value="Starbark">Starbark</option>
+            <option value="Ban">Ban</option>
+            <option value="Aurora">Aurora</option>
+            <option value="Kat">Kat</option>
+            <option value="Dust Bunny">Dust Bunny</option>
+            <option value="Zalie">Zalie</option>
+            <option value="FullSkull">FullSkull</option>
+        </select>
     
         <select id="shadingTypeSelector">
             <option value="Basic">Basic</option>
@@ -150,27 +161,6 @@
 
             return newMaterial;
         }
-
-        function populateModelSelector() {
-    fetch('list-obj-files.php')
-        .then(response => response.json())
-        .then(files => {
-            const modelSelect = document.getElementById('selectedModel');
-            modelSelect.innerHTML = ''; // Clear existing options
-
-            files.forEach(file => {
-                const name = file.replace('.obj', ''); // Remove extension
-                const option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                modelSelect.appendChild(option);
-            });
-
-            // Load the first model automatically
-            loadModel();
-        })
-        .catch(err => console.error('Error loading OBJ file list:', err));
-}
 
         function loadModel() {
             // Load the MTL file
@@ -387,7 +377,7 @@
             event.preventDefault();
         });
         // Initial model load
-        populateModelSelector();
+        loadModel();
         animate();
     </script>
 </body>
