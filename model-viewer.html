@@ -32,18 +32,7 @@
 <body>
     <div id="controls">
         <!-- Existing selectors -->
-        <select id="selectedModel">
-            <option value="Bunny">Bunny</option>
-            <option value="Dorak">Dorak</option>
-            <option value="Moth">Moth</option>
-            <option value="Starbark">Starbark</option>
-            <option value="Ban">Ban</option>
-            <option value="Aurora">Aurora</option>
-            <option value="Kat">Kat</option>
-            <option value="Dust Bunny">Dust Bunny</option>
-            <option value="Zalie">Zalie</option>
-            <option value="FullSkull">FullSkull</option>
-        </select>
+        <select id="selectedModel"></select>
     
         <select id="shadingTypeSelector">
             <option value="Basic">Basic</option>
@@ -70,12 +59,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/MTLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
+
     <script>
         // Basic Three.js setup
+        
         var loadedObject = null;
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var renderer = new THREE.WebGLRenderer();
+        renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         document.addEventListener('keydown', onKeyDown, false);
@@ -162,61 +156,34 @@
             return newMaterial;
         }
 
-        function loadModel() {
-            // Load the MTL file
-            var e = document.getElementById("selectedModel");
-            var value = e.value;
-            var text = e.options[e.selectedIndex].text;
-            var mtlLoader = new THREE.MTLLoader();
-            mtlLoader.setPath('OBJs/');
-            mtlLoader.load(text + ".mtl", function (materials) {
-                materials.preload();
+function loadModel() {
+    var e = document.getElementById("selectedModel");
+    var value = e.value;
+    var text = e.options[e.selectedIndex].text;
 
-                // Debugging: Log loaded materials
-                console.log('Materials loaded:', materials);
+    var loader = new THREE.FBXLoader();
+    loader.setPath(`FBXs/${text}/`);
+    loader.load(`${text}.fbx`, function (object) {
+        const center = new THREE.Vector3();
+        var box = new THREE.Box3().setFromObject(object);
+        let radius = box.getBoundingSphere(new THREE.Sphere(center)).radius;
+        let scale = 3 / radius;
+        object.scale.multiplyScalar(scale);
+        loadedObject = object;
 
-                // Load the OBJ file and apply the materials
-                var objLoader = new THREE.OBJLoader();
-                objLoader.setMaterials(materials);
-                objLoader.setPath('OBJs/');
-                objLoader.load(text + ".obj", function (object) {
-                    const center = new THREE.Vector3();
-                    var box = new THREE.Box3().setFromObject(object);
-                    let radius = box.getBoundingSphere(new THREE.Sphere(center)).radius;
-                    let scale = 3/radius;
-                    object.scale.multiplyScalar(scale);
-                    loadedObject = object;
-                    object.traverse(function (child) {
-                        if (child.isMesh) {
-                            console.log('Before material applied:', child.material);
+        object.traverse(function (child) {
+            if (child.isMesh) {
+                child.originalMaterial = child.material.clone();
+                child.material = getMaterial(child.originalMaterial, currentShadingType);
+                child.material.needsUpdate = true;
+            }
+        });
 
-                            // Ensure material color is not black
-                            if (child.material.color.equals(new THREE.Color(0, 0, 0))) {
-                                child.material.color.set(0x888888); // Set to a default grey color
-                            }
-
-                            // Store original material properties
-                            child.originalMaterial = child.material.clone();
-
-                            child.material = getMaterial(child.originalMaterial, currentShadingType);
-                            child.material.needsUpdate = true; // Ensure the material updates
-
-                            console.log('After material applied:', child.material);
-                        }
-                    });
-
-                    scene.add(object);
-                }, function (xhr) {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                }, function (error) {
-                    console.error('An error happened', error);
-                });
-            }, function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            }, function (error) {
-                console.error('An error happened', error);
-            });
-        }
+        scene.add(object);
+    }, undefined, function (error) {
+        console.error('Error loading FBX:', error);
+    });
+}
 
         // Camera initial position
         camera.position.set(0, 2, 5);
@@ -376,8 +343,24 @@
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
         });
+
+        fetch('FBXs/modelList.json')
+            .then(response => response.json())
+            .then(modelList => {
+                const modelSelect = document.getElementById('selectedModel');
+                modelList.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                modelSelect.appendChild(option);
+                });
+                loadModel(); // Load first model after dropdown is populated
+            })
+            .catch(err => {
+                console.error('Failed to load model list:', err);
+            });
+
         // Initial model load
-        loadModel();
         animate();
     </script>
 </body>
