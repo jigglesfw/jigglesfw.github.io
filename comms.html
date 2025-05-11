@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jiggles' Comms</title>
   <style>
-    /* General Reset */
     * {
       margin: 0;
       padding: 0;
@@ -18,18 +17,20 @@
       overflow-x: hidden;
     }
 
-    /* Background Image */
-    body {
-      background-image: url('background.jpg'); /* Replace with your image */
-      background-size: auto;
-      background-repeat: repeat;
-      background-attachment: scroll;
-      background-position: center;
+    @keyframes scrollBackground {
+      0% { background-position-y: 0px; }
+      100% { background-position-y: 1224px; }
     }
 
-    /* Overlay */
+    body {
+      background-image: url('background.jpg');
+      background-size: 1224px 1224px;
+      background-repeat: repeat;
+      animation: scrollBackground 100s linear infinite;
+    }
+
     .overlay {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0);
       height: 100%;
       width: 100%;
       position: absolute;
@@ -38,7 +39,6 @@
       z-index: -1;
     }
 
-    /* Header */
     header {
       text-align: center;
       color: white;
@@ -48,14 +48,16 @@
       text-shadow: 2px 2px 8px #000;
     }
 
-    /* Button Navigation */
     nav {
       text-align: center;
       margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     nav button {
-      margin: 0 10px;
+      margin: 0.5rem;
       padding: 10px 20px;
       font-size: 1rem;
       cursor: pointer;
@@ -69,15 +71,20 @@
       background-color: #ffffff;
     }
 
-    /* Main Content Area */
     .content {
       max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-      background: rgba(255, 255, 255, 0.9);
+      margin: 1rem auto;
+      padding: .5rem;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+      background: 
+        url('background2.png') center center / 50% repeat,
+        linear-gradient(180deg, rgba(94, 38, 146, .98), rgba(126, 28, 97, 0.95));
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      box-shadow: 0 0 300px rgba(0,0,0,.5);
       text-align: center;
+      border: 5px solid transparent;
+      border-image: linear-gradient(180deg, hsl(271, 79%, 26%), hsl(318, 84%, 20%)) 1;
     }
 
     .content-section {
@@ -95,14 +102,15 @@
 
     .gif-row {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      flex-wrap: wrap;
+      
     }
 
     .gif-row img {
-      width: 150px;
-      height: 150px;
+      width: 200px;
+      height: 200px;
       object-fit: cover;
       object-position: center;
       border-radius: 10px;
@@ -133,9 +141,24 @@
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
       border-radius: 10px;
     }
+
+    @media screen and (max-width: 768px) {
+      .gif-row img {
+        width: calc(33% - 1rem);
+        height: auto;
+        max-width: none;
+      }
+    }
+
+    p {
+  font-size: 1.1rem; /* or increase as needed */
+  font-weight: bold;
+}
+
   </style>
 </head>
 <body>
+
   <div class="overlay"></div>
   <header>Jiggles' Comms</header>
 
@@ -147,17 +170,20 @@
 
   <div class="content">
 
-    <!-- Portfolio Section -->
     <div id="portfolio" class="content-section active">
-      <h2>Basic 3D</h2>
+      <h1>Basic 3D</h1>
+      <h1>$100</h1>
       <div class="gif-row">
         <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
         <img src="gBee.gif" alt="Bee" onclick="openLightbox(this.src)">
         <img src="gMoth.gif" alt="Moth" onclick="openLightbox(this.src)">
       </div>
-      <p>Info about basic 3D</p>
+      <p>I'll make a simple 3D model for you!</p>
+      <p>Includes: Base mesh, textures, and export format of your preference! (OBJ, FBX...)</p>
+      <br>
 
-      <h2>Animated 3D</h2>
+      <h1>Animated 3D</h1>
+      <h1>$150</h1>
       <div class="gif-row">
         <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
         <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
@@ -165,35 +191,37 @@
       </div>
       <p>Info about animated 3D</p>
 
-      <h2>VRChat Avatar</h2>
+      <br>
+
+      <h1>VRChat Avatar</h1>
+      <h1>$200</h1>
       <video src="VRC.mp4" autoplay loop muted playsinline></video>
       <p>Info about VRChat avatars</p>
     </div>
 
-<!-- Terms of Service Section -->
-<div id="ToS" class="content-section">
-    <h2>Terms of Service</h2>
-    <ul style="text-align: left; padding-left: 1.5rem;">
-      <li><strong>Ownership:</strong> You are free to use the model for personal, commercial, and streaming purposes.</li>
-      <li><strong>Credit:</strong> While not required, crediting me (@jigglesart) is appreciated!</li>
-      <li><strong>Edits:</strong> You're welcome to make changes to the model after delivery.</li>
-      <li><strong>Distribution:</strong> Please do not resell or redistribute the model files without my permission.</li>
-      <li><strong>Refund Policy:</strong> 
-        <ul>
-          <li>Full refunds available only if the project hasn’t been started yet.</li>
-          <li>Partial refunds may be offered depending on progress if I’ve already begun work.</li>
-          <li>No refunds once the final model has been delivered.</li>
-        </ul>
-      </li>
-      <li><strong>Delivery Time:</strong> Completion time may vary depending on complexity and queue.</li>
-      <li><strong>Communication:</strong> I’ll stay in touch throughout the process! Updates will be shared regularly.</li>
-    </ul>
-  </div>
+    <div id="ToS" class="content-section">
+      <h2>Terms of Service</h2>
+      <ul style="text-align: left; padding-left: 1.5rem;">
+        <li><strong>Ownership:</strong> You are free to use the model for personal, commercial, and streaming purposes.</li>
+        <li><strong>Credit:</strong> While not required, crediting me (@jigglesart) is appreciated!</li>
+        <li><strong>Edits:</strong> You're welcome to make changes to the model after delivery.</li>
+        <li><strong>Distribution:</strong> Please do not resell or redistribute the model files without my permission.</li>
+        <li><strong>Refund Policy:</strong>
+          <ul>
+            <li>Full refunds available only if the project hasn’t been started yet.</li>
+            <li>Partial refunds may be offered depending on progress if I’ve already begun work.</li>
+            <li>No refunds once the final model has been delivered.</li>
+          </ul>
+        </li>
+        <li><strong>Delivery Time:</strong> Completion time may vary depending on complexity and queue.</li>
+        <li><strong>Communication:</strong> I’ll stay in touch throughout the process! Updates will be shared regularly.</li>
+      </ul>
+    </div>
 
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Large preview">
+    </div>
 
-  <!-- Lightbox Element (only one needed) -->
-  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" alt="Large preview">
   </div>
 
   <script>
@@ -212,5 +240,6 @@
       document.getElementById('lightbox').style.display = 'none';
     }
   </script>
+
 </body>
 </html>
