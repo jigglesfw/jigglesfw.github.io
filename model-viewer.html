@@ -171,67 +171,39 @@ function loadModel() {
         object.scale.multiplyScalar(scale);
 
         if (loadedObject) {
-    // Preserve and cleanup the old model
-    loadedObject.traverse(child => {
-        if (child.isMesh) {
-            // Save the original material before disposing it
-            if (child.material) {
-                child.originalMaterial = child.material.clone(); // Preserve the original material
-            }
-
-            // Dispose of the old material and textures
-            if (child.material && child.material.map) {
-                child.material.map.dispose();
-            }
-
-            if (child.material) {
-                child.material.dispose();
-            }
-
-            // Dispose of geometry
-            if (child.geometry) {
-                child.geometry.dispose();
-            }
+            scene.remove(loadedObject);
+            loadedObject.traverse(child => {
+                if (child.material && child.material.map) {
+                    child.material.map.dispose();
+                }
+                if (child.material) {
+                    child.material.dispose();
+                }
+                if (child.geometry) {
+                    child.geometry.dispose();
+                }
+            });
         }
-    });
+        
+        object.traverse(function (child) {
+            if (child.isMesh) {
+                child.originalMaterial = child.material.clone();
+                child.material = getMaterial(child.originalMaterial, currentShadingType);
+                child.material.needsUpdate = true;
+            }
+        });
+        
+        loadedObject = object;
+        scene.add(object);
 
-    // Remove the old object from the scene
-    scene.remove(loadedObject);
-
-    // Dispose of the old mixer (if it exists)
-    if (mixer) {
-        mixer.stopAllAction(); // Stop any animations from the old model
-        mixer = null; // Dispose the old mixer
-    }
-}
-
-// Now process the new model
-object.traverse(function (child) {
-    if (child.isMesh) {
-        // If the child mesh had a previously preserved material, apply it back with the current shading
-        if (child.originalMaterial) {
-            child.material = getMaterial(child.originalMaterial, currentShadingType);
+        if (object.animations && object.animations.length > 0) {
+            mixer = new THREE.AnimationMixer(object);
+            object.animations.forEach((clip) => {
+                mixer.clipAction(clip).play();
+            });
         } else {
-            // If no original material was preserved (new mesh), create the material from scratch
-            child.material = getMaterial(child.material, currentShadingType);
+            mixer = null;
         }
-        child.material.needsUpdate = true;
-    }
-});
-
-// Add the new object to the scene
-loadedObject = object;
-scene.add(loadedObject);
-
-// If the new model has animations, create a new animation mixer
-if (object.animations && object.animations.length > 0) {
-    mixer = new THREE.AnimationMixer(object);
-    object.animations.forEach((clip) => {
-        mixer.clipAction(clip).play();
-    });
-} else {
-    mixer = null;
-}
 
     }, undefined, function (error) {
         console.error('Error loading FBX:', error);

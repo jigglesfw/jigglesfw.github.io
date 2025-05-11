@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jiggles' Comms</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Background Image */
+    body {
+      background-image: url('background.jpg'); /* Replace with your image */
+      background-size: auto;
+      background-repeat: repeat;
+      background-attachment: scroll;
+      background-position: center;
+    }
+
+    /* Overlay */
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      color: white;
+      padding: 2rem;
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px #000;
+    }
+
+    /* Button Navigation */
+    nav {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    nav button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #ffffffcc;
+      transition: background 0.3s;
+    }
+
+    nav button:hover {
+      background-color: #ffffff;
+    }
+
+    /* Main Content Area */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    img, video {
+      max-width: 100%;
+      margin: 1rem 0;
+    }
+
+    .gif-row img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;     /* fills the box and crops overflow */
+        object-position: center; /* optional: center the crop */
+    }
+
+    .gif-row img:hover {
+    transform: scale(1.05);     /* Optional: slight zoom on hover */
+    }
+
+    .lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+    }
+
+    .lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    border-radius: 10px;
+    }
+
+  </style>
+  
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <header>Jiggles' Comms</header>
+
+  <nav>
+    <button onclick="showSection('portfolio')">Portfolio</button>
+    <button onclick="showSection('pricing')">Pricing</button>
+    <button onclick="showSection('contact')">Contact</button>
+  </nav>
+
+  <div class="content">
+    <div id="portfolio" class="content-section active">
+      <h2>Basic 3D</h2>
+      <div class="gif-row">
+        <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
+        <img src="gBee.gif" alt="Aurora" onclick="openLightbox(this.src)">
+        <img src="gMoth.gif" alt="Moth" onclick="openLightbox(this.src)">
+      </div>
+      <!-- Lightbox Container -->
+      <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Large preview">
+      </div>
+      <p>Info about basic 3D</p>
+    </div>
+
+    <h2>Animated 3D</h2>
+    <div class="gif-row">
+      <img src="gKangaroo.gif" alt="Ban" onclick="openLightbox(this.src)">
+      <img src="gCarol.gif" alt="Aurora" onclick="openLightbox(this.src)">
+      <img src="gJasy.gif" alt="Moth" onclick="openLightbox(this.src)">
+    </div>
+    <!-- Lightbox Container -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Large preview">
+    </div>
+    <p>Info about animated 3D</p>
+
+    <h2>VRChat Avatar</h2>
+    <video src="VRC.mp4" autoplay loop muted playsinline></video>
+    <!-- Lightbox Container -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Large preview">
+    </div>
+    <p>Info about yeah</p>
+
+
+  </div>
+
+    <div id="pricing" class="content-section">
+      <h2>Pricing</h2>
+      <p>Base model: $100<br>Texturing: +$30<br>Rigging: +$50</p>
+    </div>
+
+    <div id="contact" class="content-section">
+      <h2>Contact</h2>
+      <p>Email me at: <strong>jiggles@example.com</strong><br>
+         Twitter: <strong>@jiggles3D</strong></p>
+    </div>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+  }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+    }
+
+  </script>
+</body>
+</html>
