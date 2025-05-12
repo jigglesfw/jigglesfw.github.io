@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+
   <title>Jiggles' Comms</title>
   <style>
     * {
@@ -13,7 +16,7 @@
 
     body, html {
       height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Press Start 2P';
       overflow-x: hidden;
     }
 
@@ -44,7 +47,6 @@
       color: white;
       padding: 2rem;
       font-size: 3rem;
-      font-weight: bold;
       text-shadow: 2px 2px 8px #000;
     }
 
@@ -63,8 +65,11 @@
       cursor: pointer;
       border: none;
       border-radius: 5px;
-      background-color: #ffffffcc;
+      background: 
+        url('background2.png') center center / 200% repeat,
+        linear-gradient(180deg, rgba(94, 38, 146, .98), rgba(126, 28, 97, 0.95));
       transition: background 0.3s;
+      color:white;
     }
 
     nav button:hover {
@@ -72,11 +77,10 @@
     }
 
     .content {
-      max-width: 900px;
+      max-width: 60%;
       margin: 1rem auto;
-      padding: .5rem;
-      padding-top: 4rem;
-      padding-bottom: 4rem;
+      padding: 2rem;
+
       background: 
         url('background2.png') center center / 50% repeat,
         linear-gradient(180deg, rgba(94, 38, 146, .98), rgba(126, 28, 97, 0.95));
@@ -96,8 +100,7 @@
     }
 
     img, video {
-      max-width: 100%;
-      margin: 1rem 0;
+      max-width: 80%;
     }
 
     .gif-row {
@@ -105,6 +108,8 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
+      margin-bottom: 2rem;
+      margin-top: 2rem;
       
     }
 
@@ -148,12 +153,53 @@
         height: auto;
         max-width: none;
       }
+
+      nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav button {
+    width: 80%;
+    max-width: 300px;
+  }
     }
 
     p {
-  font-size: 1.1rem; /* or increase as needed */
-  font-weight: bold;
+  font-size: 1rem; /* or increase as needed */
+    margin: 1rem auto;
+
 }
+
+.commission-block {
+  width : 80%;
+  padding-bottom: 2rem; /* adjust as needed */
+  padding-top: 2rem;;
+  margin-bottom: 2rem ; /* space between blocks */
+  margin-top: 2rem ;
+  margin-left: auto;
+  margin-right: auto;
+  border:3px solid rgba(39, 5, 70, 0.4);
+  background:rgba(53, 9, 94, 0.4);
+  border-radius: 30px;
+
+}
+
+video {
+  display: block;
+  margin: 1rem auto;
+  max-width: 80%;
+  border-radius: 10px; /* optional, for nicer edges */
+}
+
+.commission-details div {
+  margin: 2rem;
+  background: linear-gradient(180deg, hsl(51, 100%, 66%) 5%, hsl(35, 100%, 60%) 30%, hsl(330, 100%, 60%) 95%, hsl(330, 80%, 32%) 100%); /* soft gold to pink */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2; /* Adjust this value as needed */
+}
+
 
   </style>
 </head>
@@ -171,32 +217,60 @@
   <div class="content">
 
     <div id="portfolio" class="content-section active">
-      <h1>Basic 3D</h1>
-      <h1>$100</h1>
-      <div class="gif-row">
-        <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
-        <img src="gBee.gif" alt="Bee" onclick="openLightbox(this.src)">
-        <img src="gMoth.gif" alt="Moth" onclick="openLightbox(this.src)">
-      </div>
-      <p>I'll make a simple 3D model for you!</p>
-      <p>Includes: Base mesh, textures, and export format of your preference! (OBJ, FBX...)</p>
-      <br>
+        <div class="commission-block">
+          <h1>Basic 3D</h1>
+          <h1>$100</h1>
+          <div class="gif-row">
+            <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
+            <img src="gBee.gif" alt="Bee" onclick="openLightbox(this.src)">
+            <img src="gMoth.gif" alt="Moth" onclick="openLightbox(this.src)">
+          </div>
+          <p>
+            <div class="commission-details">
+                <div>Includes: Base mesh, textures, and export format of your preference. (OBJ, FBX...) </div>
+                <div>This model isn't rigged or animated but <i>is</i> game-ready. <br>
+                Feel free to modify the model as you like :D </div>
+                <div>[+20$ for a pose in the turnaround.] <br>
+                    [+15-30$ for an outfit and/or prop.*]
+                </div>
+                    
+                 </div>
+            </div>
+          </p>
+        </div>
 
-      <h1>Animated 3D</h1>
-      <h1>$150</h1>
-      <div class="gif-row">
-        <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
-        <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
-        <img src="gJasy.gif" alt="Jasy" onclick="openLightbox(this.src)">
-      </div>
-      <p>Info about animated 3D</p>
+        <div class="commission-block">
+            <h1>Animated 3D</h1>
+            <h1>$150</h1>
+            <div class="gif-row">
+                <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
+                <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
+                <img src="gJasy.gif" alt="Jasy" onclick="openLightbox(this.src)">
+            </div>
+            <p>
+                <div class="commission-details">
+                    <div>Includes: Tier 1 + rigging and one free animation!</div> 
+                    <div>I’ll animate whatever you'd like :3 <br>
+                    This rig is compatible with Unreal and Unity, provided you have Maya and Advanced Skeleton.</div>
+                    <div>[+15-30$ for each additional animation.*] <br>
+                        [$20 for animated background.]
+                    </div>
+                  </div>
+            </p>
+        </div>
+        <div class="commission-block">
+            <h1>VRChat Avatar</h1>
+            <h1>$200</h1>
+            <video src="VRC.mp4" autoplay loop muted playsinline></video>
+            <div class="commission-details"> 
 
-      <br>
+                <div>Includes: VRC Unity package, 4 free expression. </div>
 
-      <h1>VRChat Avatar</h1>
-      <h1>$200</h1>
-      <video src="VRC.mp4" autoplay loop muted playsinline></video>
-      <p>Info about VRChat avatars</p>
+            </div>
+        </div>
+        <footer class="pricing-legend">
+            <p style="color:white";>* Price may vary depending on complexity</p>
+          </footer>
     </div>
 
     <div id="ToS" class="content-section">
