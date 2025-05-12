@@ -161,6 +161,15 @@
     }
 
     @media (max-width: 768px) {
+        header {
+  font-size: 1.5rem;
+  padding: 1.5rem 1rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+
+
       .gif-row img {
         width: calc(33% - 1rem);
         height: auto;
@@ -172,9 +181,32 @@
       }
 
       nav button {
-        width: 80%;
-        max-width: 300px;
-      }
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .content {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    padding: 1rem;
+  }
+
+  .commission-details div {
+    font-size: 0.55rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+  }
+
+  h1 {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+  video {
+    max-width: 100%;
+  }
     }
 
     #ToS ul {
@@ -187,7 +219,9 @@ h1 {
     text-shadow: 2px 2px 8px #000;
     line-height: 1.6;
 }
-
+.smaller {
+  font-size: 0.8em;
+}
   </style>
 </head>
 <body>
@@ -213,13 +247,13 @@ h1 {
         </div>
         <div class="commission-details">
           <div>Includes: Base mesh, textures, and export format of your preference. (OBJ, FBX...)</div>
-          <div>This model isn't rigged or animated but <i>is</i> game-ready.<br>Feel free to modify it as you like :D</div>
+          <div>This model isn't rigged or animated but <i>is</i> game-ready.<br>Feel free to modify it as you like. :D</div>
           <div>[+20$ for a pose in the turnaround.]<br>[+15–30$ for an outfit and/or prop.*]</div>
         </div>
       </div>
 
       <div class="commission-block">
-        <h1>Animated 3D <br> $150 </h1>
+        <h1><span class="smaller">Animated</span> 3D <br> $150 </h1>
         <div class="gif-row">
           <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
           <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
@@ -227,7 +261,7 @@ h1 {
         </div>
         <div class="commission-details">
           <div>Includes: Tier 1 + rigging and one free animation!</div>
-          <div>I’ll animate whatever you'd like :3<br>This rig is compatible with Unreal and Unity, provided you have Maya and Advanced Skeleton.</div>
+          <div>I’ll animate whatever you'd like. :3<br>This rig is compatible with Unreal and Unity, provided you have Maya and Advanced Skeleton.</div>
           <div>[+15–30$ for each additional animation.*]<br>[$20 for animated background.]</div>
         </div>
       </div>
@@ -255,24 +289,18 @@ h1 {
 
     <!-- TERMS OF SERVICE + CONTACT -->
 <div id="ToS" class="content-section">
-    <h2 style="color: white;">Terms of Service</h2> <br>
+    <h2 style="color: white;">Terms of Service</h2> <br><br>
     <ul style="text-align: left; padding-left: 1.5rem; color: white;">
-      <li><strong>Ownership:</strong> You may use the model for personal, commercial, and streaming purposes.</li>
-      <li><strong>Credit:</strong> Credit (@jigglesart) is appreciated but not required.</li>
-      <li><strong>Edits:</strong> You're welcome to edit the model post-delivery.</li>
-      <li><strong>Distribution:</strong> Don’t redistribute or resell the files without permission.</li>
-      <li><strong>Refunds:</strong>
-        <ul>
-          <li>Full refund if work hasn't started.</li>
-          <li>Partial refund depending on progress.</li>
-          <li>No refund after final delivery.</li>
-        </ul>
-      </li>
-      <li><strong>Delivery Time:</strong> May vary by queue and complexity.</li>
-      <li><strong>Communication:</strong> I'll keep in touch and provide regular updates!</li>
+      <li>Credit (@jigglesart) is appreciated but not required.</li> <br>
+      <li>You may use the model for personal, commercial, and streaming purposes.</li><br>
+      <li>You're welcome to edit the model post-delivery.</li><br>
+      <li>Don’t redistribute or resell the files without permission.</li><br>
+      <li>I will not issue refunds after the commission is completed. If I cannot complete your commission, I will issue a full refund.</li> <br>
+      <li>I typically aim to finish models within 3 days, but VR aivs may take up to 3 weeks depending on queue and complexity.</li><br>
+      <li>I'll keep in touch and provide regular updates! (Check out my Trello)</li><br>
     </ul>
   
-    <h2 style="color: white; margin-top: 2rem;">Contact</h2>
+    <h2 style="color: white; margin-top: 2rem;">Contact</h2> <br> <br>
     <ul style="text-align: left; padding-left: 1.5rem; color: white;">
       <li><strong>Discord:</strong> jiggles11</li>
       <li><strong>X (Twitter):</strong> <a href="https://x.com/jigglesart" target="_blank" style="color: #FF69B4;">@jigglesart</a></li>
