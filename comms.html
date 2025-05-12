@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
+<link rel="icon" type="image/png" href="goat.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  
-
   <title>Jiggles' Comms</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,32 +13,22 @@
       box-sizing: border-box;
     }
 
-    body, html {
+    html, body {
       height: 100%;
-      font-family: 'Press Start 2P';
+      font-family: 'Press Start 2P', sans-serif;
       overflow-x: hidden;
     }
 
-    @keyframes scrollBackground {
-      0% { background-position-y: 0px; }
-      100% { background-position-y: 1224px; }
-    }
-
     body {
-      background-image: url('background.jpg');
+      background: url('background.jpg');
       background-size: 1224px 1224px;
       background-repeat: repeat;
       animation: scrollBackground 100s linear infinite;
     }
 
-    .overlay {
-      background: rgba(0, 0, 0, 0);
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
+    @keyframes scrollBackground {
+      0% { background-position-y: 0; }
+      100% { background-position-y: 1224px; }
     }
 
     header {
@@ -51,44 +40,42 @@
     }
 
     nav {
-      text-align: center;
-      margin-bottom: 2rem;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
 
     nav button {
+      font-family: 'Press Start 2P', monospace;
       margin: 0.5rem;
       padding: 10px 20px;
       font-size: 1rem;
       cursor: pointer;
       border: none;
       border-radius: 5px;
-      background: 
-        url('background2.png') center center / 200% repeat,
-        linear-gradient(180deg, rgba(94, 38, 146, .98), rgba(126, 28, 97, 0.95));
+      background: url('background2.png') center center / 200% repeat,
+                  linear-gradient(180deg, rgba(94,38,146,0.98), rgba(126,28,97,0.95));
+      color: white;
       transition: background 0.3s;
-      color:white;
     }
 
     nav button:hover {
-      background-color: #ffffff;
+      background-color: #fff;
+      color: #000;
     }
 
     .content {
       max-width: 60%;
       margin: 1rem auto;
       padding: 2rem;
-
-      background: 
-        url('background2.png') center center / 50% repeat,
-        linear-gradient(180deg, rgba(94, 38, 146, .98), rgba(126, 28, 97, 0.95));
+      background: url('background2.png') center center / 50% repeat,
+                  linear-gradient(180deg, rgba(94,38,146,0.98), rgba(126,28,97,0.95));
       border-radius: 15px;
-      box-shadow: 0 0 300px rgba(0,0,0,.5);
+      box-shadow: 0 0 300px rgba(0,0,0,0.5);
       text-align: center;
       border: 5px solid transparent;
-      border-image: linear-gradient(180deg, hsl(271, 79%, 26%), hsl(318, 84%, 20%)) 1;
+      border-image: linear-gradient(180deg, hsl(271,79%,26%), hsl(318,84%,20%)) 1;
     }
 
     .content-section {
@@ -99,25 +86,27 @@
       display: block;
     }
 
-    img, video {
-      max-width: 80%;
+    .commission-block {
+      width: 80%;
+      margin: 2rem auto;
+      padding: 2rem 0;
+      background: rgba(53,9,94,0.4);
+      border: 3px solid rgba(39,5,70,0.4);
+      border-radius: 30px;
     }
 
     .gif-row {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 1rem;
-      margin-bottom: 2rem;
-      margin-top: 2rem;
-      
+      margin: 2rem 0;
     }
 
     .gif-row img {
       width: 200px;
       height: 200px;
       object-fit: cover;
-      object-position: center;
       border-radius: 10px;
       cursor: pointer;
       transition: transform 0.2s;
@@ -127,13 +116,37 @@
       transform: scale(1.05);
     }
 
+    video {
+      display: block;
+      margin: 1rem auto;
+      max-width: 80%;
+      border-radius: 10px;
+    }
+
+    .commission-details div {
+      margin: 2rem;
+      background: linear-gradient(180deg, hsl(51,100%,66%) 5%, hsl(35,100%,60%) 30%, hsl(330,100%,60%) 95%, hsl(330,80%,32%) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .pricing-legend {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .pricing-legend p {
+      color: white;
+    }
+
     .lightbox {
       display: none;
       position: fixed;
       z-index: 9999;
       top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.85);
       justify-content: center;
       align-items: center;
@@ -143,155 +156,131 @@
     .lightbox img {
       max-width: 90%;
       max-height: 90%;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
       border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       .gif-row img {
         width: calc(33% - 1rem);
         height: auto;
-        max-width: none;
       }
 
       nav {
-    flex-direction: column;
-    align-items: center;
-  }
+        flex-direction: column;
+        align-items: center;
+      }
 
-  nav button {
-    width: 80%;
-    max-width: 300px;
-  }
+      nav button {
+        width: 80%;
+        max-width: 300px;
+      }
     }
 
-    p {
-  font-size: 1rem; /* or increase as needed */
-    margin: 1rem auto;
-
+    #ToS ul {
+  line-height: 1.8;
 }
 
-.commission-block {
-  width : 80%;
-  padding-bottom: 2rem; /* adjust as needed */
-  padding-top: 2rem;;
-  margin-bottom: 2rem ; /* space between blocks */
-  margin-top: 2rem ;
-  margin-left: auto;
-  margin-right: auto;
-  border:3px solid rgba(39, 5, 70, 0.4);
-  background:rgba(53, 9, 94, 0.4);
-  border-radius: 30px;
-
+h1 {
+    font-size: 2rem;
+    color: white;
+    text-shadow: 2px 2px 8px #000;
+    line-height: 1.6;
 }
-
-video {
-  display: block;
-  margin: 1rem auto;
-  max-width: 80%;
-  border-radius: 10px; /* optional, for nicer edges */
-}
-
-.commission-details div {
-  margin: 2rem;
-  background: linear-gradient(180deg, hsl(51, 100%, 66%) 5%, hsl(35, 100%, 60%) 30%, hsl(330, 100%, 60%) 95%, hsl(330, 80%, 32%) 100%); /* soft gold to pink */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  line-height: 1.2; /* Adjust this value as needed */
-}
-
 
   </style>
 </head>
 <body>
 
-  <div class="overlay"></div>
   <header>Jiggles' Comms</header>
 
   <nav>
     <button onclick="showSection('portfolio')">3D COMMS</button>
     <button onclick="showSection('2D')">2D COMMS</button>
-    <button onclick="showSection('ToS')">Terms of Service</button>
+    <button onclick="showSection('ToS')">ToS/Contact</button>
   </nav>
 
   <div class="content">
 
+    <!-- 3D COMMISSIONS -->
     <div id="portfolio" class="content-section active">
-        <div class="commission-block">
-          <h1>Basic 3D</h1>
-          <h1>$100</h1>
-          <div class="gif-row">
-            <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
-            <img src="gBee.gif" alt="Bee" onclick="openLightbox(this.src)">
-            <img src="gMoth.gif" alt="Moth" onclick="openLightbox(this.src)">
-          </div>
-          <p>
-            <div class="commission-details">
-                <div>Includes: Base mesh, textures, and export format of your preference. (OBJ, FBX...) </div>
-                <div>This model isn't rigged or animated but <i>is</i> game-ready. <br>
-                Feel free to modify the model as you like :D </div>
-                <div>[+20$ for a pose in the turnaround.] <br>
-                    [+15-30$ for an outfit and/or prop.*]
-                </div>
-                    
-                 </div>
-            </div>
-          </p>
+      <div class="commission-block">
+        <h1>Basic 3D <br> $100</h1>
+        <div class="gif-row">
+          <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
+          <img src="gBee.gif" alt="Bee" onclick="openLightbox(this.src)">
+          <img src="gMoth.gif" alt="Moth" onclick="openLightbox(this.src)">
         </div>
-
-        <div class="commission-block">
-            <h1>Animated 3D</h1>
-            <h1>$150</h1>
-            <div class="gif-row">
-                <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
-                <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
-                <img src="gJasy.gif" alt="Jasy" onclick="openLightbox(this.src)">
-            </div>
-            <p>
-                <div class="commission-details">
-                    <div>Includes: Tier 1 + rigging and one free animation!</div> 
-                    <div>I’ll animate whatever you'd like :3 <br>
-                    This rig is compatible with Unreal and Unity, provided you have Maya and Advanced Skeleton.</div>
-                    <div>[+15-30$ for each additional animation.*] <br>
-                        [$20 for animated background.]
-                    </div>
-                  </div>
-            </p>
+        <div class="commission-details">
+          <div>Includes: Base mesh, textures, and export format of your preference. (OBJ, FBX...)</div>
+          <div>This model isn't rigged or animated but <i>is</i> game-ready.<br>Feel free to modify it as you like :D</div>
+          <div>[+20$ for a pose in the turnaround.]<br>[+15–30$ for an outfit and/or prop.*]</div>
         </div>
-        <div class="commission-block">
-            <h1>VRChat Avatar</h1>
-            <h1>$200</h1>
-            <video src="VRC.mp4" autoplay loop muted playsinline></video>
-            <div class="commission-details"> 
+      </div>
 
-                <div>Includes: VRC Unity package, 4 free expression. </div>
-
-            </div>
+      <div class="commission-block">
+        <h1>Animated 3D <br> $150 </h1>
+        <div class="gif-row">
+          <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
+          <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
+          <img src="gJasy.gif" alt="Jasy" onclick="openLightbox(this.src)">
         </div>
-        <footer class="pricing-legend">
-            <p style="color:white";>* Price may vary depending on complexity</p>
-          </footer>
+        <div class="commission-details">
+          <div>Includes: Tier 1 + rigging and one free animation!</div>
+          <div>I’ll animate whatever you'd like :3<br>This rig is compatible with Unreal and Unity, provided you have Maya and Advanced Skeleton.</div>
+          <div>[+15–30$ for each additional animation.*]<br>[$20 for animated background.]</div>
+        </div>
+      </div>
+
+      <div class="commission-block">
+        <h1>VRChat Avatar <br> $200 </h1>
+        <video src="VRC.mp4" autoplay loop muted playsinline></video>
+        <div class="commission-details">
+          <div>Includes: VRC Unity package and 4 free expressions!</div>
+          <div>This model is fully rigged and ready for immediate use in VRChat. Expression are tied to hand gestures or radial menu.</div>
+          <div>[$2 for each additional expression.] <br> [+15–30$ for each outfit.*]<br>[~$20 for prop toggle.] <br> [$50 for lipsync.*] </div>
+        </div>
+      </div>
+
+      <footer class="pricing-legend">
+        <p>* Price may vary depending on complexity</p>
+      </footer>
     </div>
 
-    <div id="ToS" class="content-section">
-      <h2>Terms of Service</h2>
-      <ul style="text-align: left; padding-left: 1.5rem;">
-        <li><strong>Ownership:</strong> You are free to use the model for personal, commercial, and streaming purposes.</li>
-        <li><strong>Credit:</strong> While not required, crediting me (@jigglesart) is appreciated!</li>
-        <li><strong>Edits:</strong> You're welcome to make changes to the model after delivery.</li>
-        <li><strong>Distribution:</strong> Please do not resell or redistribute the model files without my permission.</li>
-        <li><strong>Refund Policy:</strong>
-          <ul>
-            <li>Full refunds available only if the project hasn’t been started yet.</li>
-            <li>Partial refunds may be offered depending on progress if I’ve already begun work.</li>
-            <li>No refunds once the final model has been delivered.</li>
-          </ul>
-        </li>
-        <li><strong>Delivery Time:</strong> Completion time may vary depending on complexity and queue.</li>
-        <li><strong>Communication:</strong> I’ll stay in touch throughout the process! Updates will be shared regularly.</li>
-      </ul>
+    <!-- 2D COMMISSIONS -->
+    <div id="2D" class="content-section">
+      <h2 style="color: white;">2D Commissions</h2>
+      <p style="color: white;">More info coming soon! Feel free to ask directly in the meantime.</p>
     </div>
 
+    <!-- TERMS OF SERVICE + CONTACT -->
+<div id="ToS" class="content-section">
+    <h2 style="color: white;">Terms of Service</h2> <br>
+    <ul style="text-align: left; padding-left: 1.5rem; color: white;">
+      <li><strong>Ownership:</strong> You may use the model for personal, commercial, and streaming purposes.</li>
+      <li><strong>Credit:</strong> Credit (@jigglesart) is appreciated but not required.</li>
+      <li><strong>Edits:</strong> You're welcome to edit the model post-delivery.</li>
+      <li><strong>Distribution:</strong> Don’t redistribute or resell the files without permission.</li>
+      <li><strong>Refunds:</strong>
+        <ul>
+          <li>Full refund if work hasn't started.</li>
+          <li>Partial refund depending on progress.</li>
+          <li>No refund after final delivery.</li>
+        </ul>
+      </li>
+      <li><strong>Delivery Time:</strong> May vary by queue and complexity.</li>
+      <li><strong>Communication:</strong> I'll keep in touch and provide regular updates!</li>
+    </ul>
+  
+    <h2 style="color: white; margin-top: 2rem;">Contact</h2>
+    <ul style="text-align: left; padding-left: 1.5rem; color: white;">
+      <li><strong>Discord:</strong> jiggles11</li>
+      <li><strong>X (Twitter):</strong> <a href="https://x.com/jigglesart" target="_blank" style="color: #FF69B4;">@jigglesart</a></li>
+      <li><strong>Trello Queue:</strong> <a href="https://trello.com/b/cl2xPMcv/jiggles-art" target="_blank" style="color: #FF69B4;">View Trello Board</a></li>
+    </ul>
+  </div>
+
+    <!-- LIGHTBOX -->
     <div id="lightbox" class="lightbox" onclick="closeLightbox()">
       <img id="lightbox-img" src="" alt="Large preview">
     </div>
@@ -299,10 +288,9 @@ video {
   </div>
 
   <script>
-    function showSection(sectionId) {
-      const sections = document.querySelectorAll('.content-section');
-      sections.forEach(sec => sec.classList.remove('active'));
-      document.getElementById(sectionId).classList.add('active');
+    function showSection(id) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
 
     function openLightbox(src) {
