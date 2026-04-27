@@ -68,9 +68,49 @@
       transition: background 0.3s;
     }
 
-    nav button:hover {
-      background-color: #fff;
+    nav button.active {
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(200,200,200,0.8));
       color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+      50% { box-shadow: 0 0 25px rgba(255,255,255,0.5); }
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: url('background2.png') center center / 200% repeat,
+                  linear-gradient(180deg, rgba(94,38,146,0.98), rgba(126,28,97,0.95));
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 20px rgba(255,69,180,0.4);
     }
 
     .content {
@@ -88,10 +128,15 @@
 
     .content-section {
       display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .content-section.active {
       display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .commission-block {
@@ -101,6 +146,12 @@
       background: rgba(53,9,94,0.4);
       border: 3px solid rgba(39,5,70,0.4);
       border-radius: 30px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .commission-block:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
     .gif-row {
@@ -117,11 +168,19 @@
       object-fit: cover;
       border-radius: 10px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s ease, opacity 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
     }
 
     .gif-row img:hover {
       transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
 
     video {
@@ -297,11 +356,10 @@ h1 {
     <!-- 2D COMMISSIONS -->
     <div id="2D" class="content-section active">
         <div class="commission-block">
-          <h1>General Info</h1>
+          <h1>Information</h1>
           <div class="commission-details">
             <div>NSFW OK! + $15 <br> Additional Character + 50% <br> Comes with simple BG - Ask me about detailed ones! <br> Price may vary for complex patterns/decals/accessories.</div>
-            
-
+            <i><p style="color: white; background: none; -webkit-text-fill-color: initial; margin: 1rem 0; text-align: center;">Click on an image to enlarge it!</p></i>
           </div>
         </div>
       
@@ -406,10 +464,34 @@ h1 {
 
   </div>
 
+  <!-- BACK TO TOP BUTTON -->
+  <button class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">↑</button>
+
+  <!-- FOOTER -->
+  <footer style="text-align: center; padding: 2rem; color: white; background: rgba(0,0,0,0.3); margin-top: 2rem;">
+    <div style="max-width: 800px; margin: 0 auto;">
+      <p style="margin-bottom: 1rem; font-size: 0.8rem;">© 2024 Jiggles Art | All rights reserved</p>
+      <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+        <a href="https://x.com/jigglesart" target="_blank" style="color: #FF69B4; text-decoration: none;">🐦 Twitter</a>
+        <a href="https://www.instagram.com/jigglesart_/" target="_blank" style="color: #FF69B4; text-decoration: none;">📷 Instagram</a>
+        <a href="https://jiggies.itch.io" target="_blank" style="color: #FF69B4; text-decoration: none;">🎮 itch.io</a>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.7rem; opacity: 0.8;">Check out my games too! ;D</p>
+    </div>
+  </footer>
+
   <script>
     function showSection(id) {
+      // Remove active class from all buttons and sections
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+
+      // Add active class to clicked button and corresponding section
+      document.querySelector(`nav button[onclick="showSection('${id}')"]`).classList.add('active');
       document.getElementById(id).classList.add('active');
+
+      // Smooth scroll to top of content
+      document.querySelector('.content').scrollIntoView({ behavior: 'smooth' });
     }
 
     function openLightbox(src) {
@@ -420,6 +502,30 @@ h1 {
     function closeLightbox() {
       document.getElementById('lightbox').style.display = 'none';
     }
+
+    // Back to top functionality
+    function scrollToTop() {
+      console.log('Back to top clicked!');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Fallback for older browsers
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+
+    // Show/hide back to top button
+    window.addEventListener('scroll', function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    // Set initial active tab
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelector('nav button[onclick="showSection(\'2D\')"]').classList.add('active');
+    });
   </script>
 
 </body>
