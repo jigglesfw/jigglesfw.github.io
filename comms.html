@@ -14,6 +14,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jiggles' Comms</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -112,6 +114,8 @@
     }
 
     .commission-option {
+      position: relative;
+      padding-top: 3.4rem;
       cursor: pointer;
       transition: border-color 0.15s ease, background-color 0.15s ease;
     }
@@ -211,8 +215,12 @@
     }
 
     .price-tag {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      z-index: 1;
       flex: 0 0 auto;
-      padding: 0.25rem 0.55rem;
+      padding: 0.5rem 0.55rem;
       border-radius: 5px;
       background: #238b70;
       color: #f3fffb;
@@ -222,7 +230,6 @@
       white-space: nowrap;
     }
 
-    .segment-select,
     .next-button,
     .back-button {
       border: 1px solid var(--line);
@@ -235,8 +242,6 @@
       cursor: pointer;
     }
 
-    .segment-select:hover,
-    .segment-select[aria-pressed="true"],
     .back-button:hover {
       border-color: var(--accent);
       color: var(--accent);
@@ -484,29 +489,40 @@
       object-fit: contain;
     }
 
-    .back-to-top {
+    .theme-toggle {
       position: fixed;
       right: 1.25rem;
-      bottom: 6rem;
+      bottom: 1.25rem;
       display: flex;
-      width: 44px;
-      height: 44px;
+      width: 50px;
+      height: 50px;
       align-items: center;
       justify-content: center;
-      border: 0;
+      padding: 0;
+      border: 1px solid var(--accent);
       border-radius: 50%;
-      background: var(--accent);
-      color: white;
-      font-size: 1.25rem;
+      background: var(--surface-raised);
+      color: var(--ink);
       cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.2s ease;
+      box-shadow: 0 0 12px rgba(88, 239, 255, 0.2);
+      z-index: 1000;
     }
 
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
+    .theme-toggle .material-symbols-outlined {
+      font-size: 30px;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      border-color: var(--accent-pink);
+      color: var(--accent-pink);
+      outline: none;
+    }
+
+    .selection-bar:not([hidden]) ~ .theme-toggle {
+      bottom: 6rem;
     }
 
     @media (max-width: 640px) {
@@ -538,10 +554,6 @@
       }
 
       .commission-heading {
-        flex-wrap: wrap;
-      }
-
-      .commission-actions {
         flex-wrap: wrap;
       }
 
@@ -579,6 +591,342 @@
         gap: 1rem !important;
       }
     }
+
+    :root {
+      --page: #090515;
+      --surface: #170d2a;
+      --surface-raised: #110b20;
+      --ink: #fff2fc;
+      --muted: #d1bdd5;
+      --line: #67376f;
+      --accent: #58efff;
+      --accent-soft: #301342;
+      --accent-pink: #ff4fbd;
+      --accent-green: #a0ff62;
+    }
+
+    body {
+      background-color: var(--page);
+      background-image: linear-gradient(rgba(9, 4, 19, 0.8), rgba(9, 4, 19, 0.88)), url('background.jpg');
+      background-position: center, 0 0;
+      background-attachment: fixed, scroll;
+      background-repeat: no-repeat, repeat;
+      background-size: 100% 100%, 1224px 1224px;
+      animation: synthBackgroundScroll 110s linear infinite;
+    }
+
+    @keyframes synthBackgroundScroll {
+      from { background-position: center, 0 0; }
+      to { background-position: center, 0 1224px; }
+    }
+
+    header {
+      color: var(--ink);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      text-shadow: 3px 3px 0 var(--accent-pink), 6px 6px 0 rgba(88, 239, 255, 0.5);
+    }
+
+    nav button {
+      border-color: #9650a2;
+      background-image: linear-gradient(rgba(50, 15, 72, 0.82), rgba(86, 13, 72, 0.86)), url('background2.png');
+      background-size: cover, 200px 200px;
+      background-repeat: no-repeat, repeat;
+      color: var(--ink);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      line-height: 1.8;
+      text-shadow: 1px 1px 0 #5b2b72;
+    }
+
+    nav button:hover,
+    nav button:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(88, 239, 255, 0.28);
+    }
+
+    nav button.active {
+      border-color: var(--accent-pink);
+      background-image: linear-gradient(rgba(109, 18, 92, 0.82), rgba(61, 19, 94, 0.88)), url('background2.png');
+      color: var(--accent-green);
+      box-shadow: 0 0 14px rgba(255, 79, 189, 0.35);
+    }
+
+    .commission-block {
+      border-color: #63356f;
+      background-color: var(--surface);
+      background-image: linear-gradient(rgba(19, 9, 34, 0.91), rgba(18, 8, 30, 0.94)), url('background2.png');
+      background-size: cover, 260px 260px;
+      background-repeat: no-repeat, repeat;
+      box-shadow: 0 0 22px rgba(207, 45, 190, 0.12), inset 0 0 0 1px rgba(88, 239, 255, 0.05);
+    }
+
+    .commission-option:hover,
+    .commission-option.is-selected {
+      border-color: var(--accent);
+      background-color: #221034;
+      box-shadow: 0 0 17px rgba(88, 239, 255, 0.18), inset 0 0 0 1px rgba(255, 79, 189, 0.25);
+    }
+
+    h1,
+    h2 {
+      color: var(--ink);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.72rem;
+      line-height: 1.9;
+      text-shadow: 2px 2px 0 rgba(255, 79, 189, 0.45);
+    }
+
+    .price-tag {
+      border: 2px solid rgba(160, 255, 98, 0.6);
+      background: rgba(23, 83, 53, 0.95);
+      color: var(--accent-green);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      letter-spacing: 1px;
+
+    }
+
+    .back-button {
+      border-color: #a33e91;
+      background-color: #281239;
+      color: var(--ink);
+    }
+
+    .back-button:hover {
+      border-color: var(--accent-pink);
+      color: var(--accent-pink);
+      box-shadow: 0 0 10px rgba(255, 79, 189, 0.25);
+    }
+
+    .gallery-grid {
+      box-shadow: 0 0 0 1px rgba(88, 239, 255, 0.16), 0 0 18px rgba(145, 40, 180, 0.18);
+    }
+
+    .selection-bar {
+      border-top-color: #8f438f;
+      background-color: rgba(12, 5, 23, 0.97);
+      background-image: linear-gradient(rgba(13, 5, 26, 0.88), rgba(20, 7, 30, 0.94)), url('background2.png');
+      background-size: cover, 240px 240px;
+      background-repeat: no-repeat, repeat;
+      box-shadow: 0 -5px 24px rgba(255, 48, 182, 0.14);
+    }
+
+    .next-button,
+    .submit-button {
+      border-color: var(--accent-pink);
+      background: linear-gradient(135deg, #e527a0, #9b2ed1);
+      color: #fff7ff;
+      box-shadow: 0 0 13px rgba(255, 79, 189, 0.3);
+    }
+
+    .next-button:disabled {
+      border-color: #53335b;
+      background: #281c34;
+      color: #9f8ca8;
+      box-shadow: none;
+    }
+
+    .request-field input,
+    .request-field textarea {
+      border-color: #573166;
+      background-color: rgba(12, 8, 22, 0.92);
+      color: var(--ink);
+    }
+
+    .request-field input:focus,
+    .request-field textarea:focus {
+      border-color: var(--accent);
+      outline-color: rgba(88, 239, 255, 0.35);
+      box-shadow: 0 0 11px rgba(88, 239, 255, 0.16);
+    }
+
+    .lightbox {
+      background: rgba(8, 3, 17, 0.95);
+    }
+
+    .theme-toggle {
+      border-color: var(--accent);
+      background-image: linear-gradient(rgba(50, 15, 72, 0.88), rgba(86, 13, 72, 0.9)), url('background2.png');
+      background-size: cover, 160px 160px;
+      background-repeat: no-repeat, repeat;
+      color: var(--ink);
+      box-shadow: 0 0 14px rgba(88, 239, 255, 0.32);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--accent-pink);
+      background-color: var(--surface);
+      background-image: linear-gradient(rgba(13, 5, 26, 0.86), rgba(20, 7, 30, 0.92)), url('background2.png');
+      background-size: cover, 240px 240px;
+      background-repeat: no-repeat, repeat;
+      color: var(--ink);
+      box-shadow: 0 -5px 24px rgba(255, 48, 182, 0.14);
+    }
+
+    .site-footer .footer-links a {
+      color: var(--accent);
+      text-shadow: 0 0 8px rgba(88, 239, 255, 0.35);
+    }
+
+    body.theme-cool {
+      --page: #090e11;
+      --surface: #12191d;
+      --surface-raised: #192226;
+      --ink: #e4ecea;
+      --muted: #a5b3b2;
+      --line: #2a373b;
+      --accent: #59c7b1;
+      --accent-soft: #17342f;
+      color-scheme: dark;
+      background-color: var(--page);
+      background-image: none;
+      animation: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    body.theme-cool header {
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2rem;
+      line-height: 1.25;
+      text-shadow: none;
+    }
+
+    body.theme-cool nav button {
+      border-color: var(--line);
+      background: var(--surface);
+      background-image: none;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      line-height: normal;
+      text-shadow: none;
+    }
+
+    body.theme-cool nav button.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      background-image: none;
+      color: var(--accent);
+      box-shadow: none;
+    }
+
+    body.theme-cool .commission-block {
+      border-color: var(--line);
+      background: var(--surface);
+      background-image: none;
+      box-shadow: none;
+    }
+
+    body.theme-cool .commission-option:hover,
+    body.theme-cool .commission-option.is-selected {
+      border-color: var(--accent);
+      background: #14201f;
+      box-shadow: none;
+    }
+
+    body.theme-cool h1,
+    body.theme-cool h2 {
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      text-shadow: none;
+    }
+
+    body.theme-cool .price-tag {
+      border: 0;
+      background: #238b70;
+      color: #f3fffb;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      text-shadow: none;
+    }
+
+    body.theme-cool .selection-bar {
+      border-top-color: var(--line);
+      background: rgba(9, 14, 17, 0.97);
+      background-image: none;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    body.theme-cool .next-button,
+    body.theme-cool .submit-button {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #07110f;
+      box-shadow: none;
+    }
+
+    body.theme-cool .next-button:disabled {
+      border-color: var(--line);
+      background: var(--surface-raised);
+      color: var(--muted);
+    }
+
+    body.theme-cool .lightbox {
+      background: rgba(20, 27, 29, 0.94);
+    }
+
+    body.theme-cool .site-footer {
+      border-top-color: var(--line);
+      background: #27343a;
+      background-image: none;
+      box-shadow: none;
+    }
+
+    body.theme-cool .site-footer .footer-links a {
+      color: #a9d7cc;
+      text-shadow: none;
+    }
+
+    body.theme-cool .theme-toggle {
+      border-color: var(--line);
+      background: var(--surface);
+      background-image: none;
+      color: var(--ink);
+      box-shadow: none;
+    }
+
+    @media (max-width: 640px) {
+      body.theme-cool header {
+        font-size: 1.65rem;
+      }
+
+      body.theme-cool h1,
+      body.theme-cool h2 {
+        font-size: 1.3rem;
+      }
+
+      body.theme-cool nav button {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        font-size: 0.9rem;
+      }
+
+      h1,
+      h2 {
+        font-size: 0.64rem;
+      }
+
+      nav button {
+        font-size: 0.48rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body {
+        animation: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -597,7 +945,8 @@
     <!-- 3D COMMISSIONS -->
     <div id="portfolio" class="content-section">
       <div class="commission-block commission-option" data-segment-id="basic-3d" data-segment-name="Basic 3D" tabindex="0" role="group" aria-label="Basic 3D commission segment">
-        <div class="commission-heading"><h1>Basic 3D <br><span data-price-display>USD$100</span></h1><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div>
+        <span class="price-tag" data-price-display>$100 USD</span>
+        <div class="commission-heading"><h1>Basic 3D</h1></div>
         <div class="gif-row">
           <img src="gBan.gif" alt="Ban" onclick="openLightbox(this.src)">
           <img src="gBee.gif" alt="Bee" onclick="openLightbox(this.src)">
@@ -606,12 +955,13 @@
         <div class="commission-details">
           <div>Includes: Base mesh, textures, and export format of your preference. (OBJ, FBX...)</div>
           <div>This model isn't rigged or animated but <i>is</i> game-ready.<br>Feel free to modify it as you like. :D</div>
-          <div>[+USD$20 for a pose in the turnaround.]<br>[+USD$15–30 for an outfit and/or prop.*]</div>
+          <div>[+$20 USD for a pose in the turnaround.]<br>[+$15–30 USD for an outfit and/or prop.*]</div>
         </div>
       </div>
 
       <div class="commission-block commission-option" data-segment-id="animated-3d" data-segment-name="Animated 3D" tabindex="0" role="group" aria-label="Animated 3D commission segment">
-        <div class="commission-heading"><h1><span class="smaller">Animated</span> 3D <br><span data-price-display>USD$150</span></h1><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div>
+        <span class="price-tag" data-price-display>$150 USD</span>
+        <div class="commission-heading"><h1><span class="smaller">Animated</span> 3D</h1></div>
         <div class="gif-row">
           <img src="gKangaroo.gif" alt="Kangaroo" onclick="openLightbox(this.src)">
           <img src="gCarol.gif" alt="Carol" onclick="openLightbox(this.src)">
@@ -620,17 +970,18 @@
         <div class="commission-details">
           <div>Includes: Tier 1 + rigging and one free animation!</div>
           <div>I’ll animate whatever you'd like. :3<br>This rig is compatible with Unreal and Unity, provided you have Maya and Advanced Skeleton.</div>
-          <div>[+USD$15–30 for each additional animation.*]<br>[USD$20 for animated background.]</div>
+          <div>[+$15–30 USD for each additional animation.*]<br>[$20 USD for animated background.]</div>
         </div>
       </div>
 
       <div class="commission-block commission-option" data-segment-id="vrchat-avatar" data-segment-name="VRChat Avatar" tabindex="0" role="group" aria-label="VRChat Avatar commission segment">
-        <div class="commission-heading"><h1>VRChat Avatar <br><span data-price-display>USD$200</span></h1><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div>
+        <span class="price-tag" data-price-display>$200 USD</span>
+        <div class="commission-heading"><h1>VRChat Avatar</h1></div>
         <video src="VRC.mp4" autoplay loop muted playsinline></video>
         <div class="commission-details">
           <div>Includes: VRC Unity package and 4 free expressions!</div>
           <div>This model is fully rigged and ready for immediate use in VRChat. Expression are tied to hand gestures or radial menu.</div>
-          <div>[USD$2 for each additional expression.] <br> [+USD$15–30 for each outfit.*]<br>[~USD$20 for prop toggle.] <br> [USD$30 for lipsync.*] </div>
+          <div>[$2 USD for each additional expression.] <br> [+$15–30 USD for each outfit.*]<br>[~$20 USD for prop toggle.] <br> [$30 USD for lipsync.*] </div>
         </div>
       </div>
 
@@ -643,13 +994,13 @@
     <div id="2D" class="content-section active">
         <div class="commission-block commission-intro">
           <h1>Information</h1>
-          <p class="commission-details">NSFW OK! + USD$15<br>Additional Character + 50%<br>Comes with simple BG - Ask me about detailed ones!<br>Price may vary for complex patterns/decals/accessories.</p>
+          <p class="commission-details">NSFW OK! + $15 USD<br>Additional Character + 50%<br>Comes with simple BG - Ask me about detailed ones!<br>Price may vary for complex patterns/decals/accessories.</p>
         </div>
 
         <div class="commission-block gallery-card commission-option" data-gallery-folder="Doodle" data-gallery-label="Doodle" data-segment-id="doodle" data-segment-name="Doodle" tabindex="0" role="group" aria-label="Doodle commission segment">
           <div class="gallery-grid" data-featured-gallery aria-label="Doodle artwork previews"></div>
           <div class="gallery-copy">
-            <div class="commission-heading"><h1>Doodle</h1><div class="commission-actions"><span class="price-tag" data-price-display>USD$10–30</span><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div></div>
+            <div class="commission-heading"><h1>Doodle</h1><span class="price-tag" data-price-display>$10–30 USD</span></div>
             <p class="commission-details">Want something simple?<br>Don't know what to expect?<br>I'll do sum' quick and sketch-y for you! ;3</p>
             <details class="more-examples" hidden>
               <summary>More examples</summary>
@@ -661,7 +1012,7 @@
         <div class="commission-block gallery-card commission-option" data-gallery-folder="Icons" data-gallery-label="Icon / Bust" data-segment-id="icon-bust" data-segment-name="Icon / Bust" tabindex="0" role="group" aria-label="Icon / Bust commission segment">
           <div class="gallery-grid" data-featured-gallery aria-label="Icon artwork previews"></div>
           <div class="gallery-copy">
-            <div class="commission-heading"><h1>Icon / Bust</h1><div class="commission-actions"><span class="price-tag" data-price-display>USD$20–40</span><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div></div>
+            <div class="commission-heading"><h1>Icon / Bust</h1><span class="price-tag" data-price-display>$20–40 USD</span></div>
             <p class="commission-details">Fully rendered character from the shoulders-up!<br>1-7 Days</p>
             <details class="more-examples" hidden>
               <summary>More examples</summary>
@@ -673,7 +1024,7 @@
         <div class="commission-block gallery-card commission-option" data-gallery-folder="Halfbodies" data-gallery-label="Halfbody" data-segment-id="halfbody" data-segment-name="Halfbody" tabindex="0" role="group" aria-label="Halfbody commission segment">
           <div class="gallery-grid" data-featured-gallery aria-label="Halfbody artwork previews"></div>
           <div class="gallery-copy">
-            <div class="commission-heading"><h1>Halfbody</h1><div class="commission-actions"><span class="price-tag" data-price-display>USD$40–60</span><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div></div>
+            <div class="commission-heading"><h1>Halfbody</h1><span class="price-tag" data-price-display>$40–60 USD</span></div>
             <p class="commission-details">Fully rendered character from the knees-up!<br>1-2 Weeks</p>
             <details class="more-examples" hidden>
               <summary>More examples</summary>
@@ -685,7 +1036,7 @@
         <div class="commission-block gallery-card commission-option" data-gallery-folder="Fullbodies" data-gallery-label="Fullbody" data-segment-id="fullbody" data-segment-name="Fullbody" tabindex="0" role="group" aria-label="Fullbody commission segment">
           <div class="gallery-grid" data-featured-gallery aria-label="Fullbody artwork previews"></div>
           <div class="gallery-copy">
-            <div class="commission-heading"><h1>Fullbody</h1><div class="commission-actions"><span class="price-tag" data-price-display>USD$60–80</span><button class="segment-select" type="button" data-segment-select aria-pressed="false">Select</button></div></div>
+            <div class="commission-heading"><h1>Fullbody</h1><span class="price-tag" data-price-display>$60–80 USD</span></div>
             <p class="commission-details">Fully rendered character from the feet-up!<br>2-3 Weeks</p>
             <details class="more-examples" hidden>
               <summary>More examples</summary>
@@ -754,7 +1105,7 @@
             <input type="text" name="references" placeholder="Incase your files are too big~ ;3" autocomplete="off">
           </label>
           <label class="request-field request-field-wide">Tell me about your commission!
-            <textarea name="details" placeholder="Be as descriptive as possible! :3" required></textarea>
+            <textarea name="details" placeholder="Be as descriptive as possible!!" required></textarea>
           </label>
           <label class="request-field request-field-wide">Reference images (1–3; PNG, JPEG, or GIF; 20 MB total max)
             <input type="file" id="referenceImage" accept="image/png,image/jpeg,image/gif" multiple required>
@@ -767,7 +1118,7 @@
     </section>
   </div>
 
-  <div class="selection-bar" id="selection-bar">
+  <div class="selection-bar" id="selection-bar" hidden>
     <div class="selection-bar-inner">
       <p class="selection-status"><span id="selection-hint">Select a commission type to continue.</span><strong id="selected-segment" hidden></strong></p>
       <button class="next-button" id="next-button" type="button" disabled>Next</button>
@@ -775,15 +1126,15 @@
   </div>
 
   <!-- BACK TO TOP BUTTON -->
-  <button class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">↑</button>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to turquoise theme" aria-pressed="false" title="Switch to turquoise theme"><span class="material-symbols-outlined" aria-hidden="true">brightness_6</span></button>
 
   <!-- FOOTER -->
-  <footer style="text-align: center; padding: 2rem; color: #e9efed; background: #27343a; margin-top: 2rem;">
+  <footer class="site-footer" style="text-align: center; padding: 2rem; margin-top: 2rem;">
     <div style="max-width: 800px; margin: 0 auto;">
       <div class="footer-links" style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-        <a href="https://x.com/jigglesart" target="_blank" style="color: #a9d7cc; text-decoration: none;">🐦 Twitter</a>
-        <a href="https://www.instagram.com/jigglesart_/" target="_blank" style="color: #a9d7cc; text-decoration: none;">📷 Instagram</a>
-        <a href="https://jiggies.itch.io" target="_blank" style="color: #a9d7cc; text-decoration: none;">🎮 itch.io</a>
+        <a href="https://x.com/jigglesart" target="_blank" style="text-decoration: none;">🐦 Twitter</a>
+        <a href="https://www.instagram.com/jigglesart_/" target="_blank" style="text-decoration: none;">📷 Instagram</a>
+        <a href="https://jiggies.itch.io" target="_blank" style="text-decoration: none;">🎮 itch.io</a>
       </div>
       <br>
       <p style="margin-bottom: 1rem; font-size: 0.8rem;">© 2024 Jiggles Art <br> All rights reserved</p>
@@ -920,7 +1271,7 @@
         document.querySelectorAll('.commission-option[data-segment-name]').forEach(segment => {
           const price = priceByType.get(segment.dataset.segmentName.trim().toLowerCase());
           const priceDisplay = segment.querySelector('[data-price-display]');
-          if (price && priceDisplay) priceDisplay.textContent = `USD$${price}`;
+          if (price && priceDisplay) priceDisplay.textContent = `$${price} USD`;
         });
       } catch (error) {
         console.error('Could not load dynamic commission prices:', error);
@@ -934,12 +1285,21 @@
     let submissionPending = false;
 
     function selectCommission(segment) {
+      if (selectedCommission === segment) {
+        selectedCommission = null;
+        document.querySelectorAll('.commission-option').forEach(option => option.classList.remove('is-selected'));
+        document.getElementById('selection-hint').textContent = 'Select a commission type to continue.';
+        document.getElementById('selected-segment').textContent = '';
+        document.getElementById('selected-segment').hidden = true;
+        document.getElementById('next-button').disabled = true;
+        document.getElementById('selection-bar').hidden = true;
+        return;
+      }
+
       selectedCommission = segment;
       document.querySelectorAll('.commission-option').forEach(option => {
         const isSelected = option === segment;
         option.classList.toggle('is-selected', isSelected);
-        option.querySelector('[data-segment-select]').setAttribute('aria-pressed', String(isSelected));
-        option.querySelector('[data-segment-select]').textContent = isSelected ? 'Selected' : 'Select';
       });
 
       const selectionHint = document.getElementById('selection-hint');
@@ -948,6 +1308,7 @@
       selectedSegment.textContent = segment.dataset.segmentName;
       selectedSegment.hidden = false;
       document.getElementById('next-button').disabled = false;
+      document.getElementById('selection-bar').hidden = false;
     }
 
     function openRequestForm() {
@@ -970,7 +1331,7 @@
 
     function returnToSegments() {
       document.getElementById('request-form').hidden = true;
-      document.getElementById('selection-bar').hidden = false;
+      document.getElementById('selection-bar').hidden = selectedCommission === null;
       selectedCommission.closest('.content-section').classList.add('active');
       selectedCommission.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -1036,9 +1397,8 @@
     document.getElementById('referenceImage').addEventListener('change', validateReferenceImages);
 
     document.querySelectorAll('.commission-option').forEach(segment => {
-      segment.querySelector('[data-segment-select]').addEventListener('click', () => selectCommission(segment));
       segment.addEventListener('click', event => {
-        if (!event.target.closest('button, a, summary, video, iframe')) selectCommission(segment);
+        if (!event.target.closest('button, a, summary, video, iframe, img')) selectCommission(segment);
       });
       segment.addEventListener('keydown', event => {
         if (event.target === segment && (event.key === 'Enter' || event.key === ' ')) {
@@ -1144,7 +1504,7 @@
 
     function showSection(id) {
       document.getElementById('request-form').hidden = true;
-      document.getElementById('selection-bar').hidden = false;
+      document.getElementById('selection-bar').hidden = selectedCommission === null;
 
       // Remove active class from all buttons and sections
       document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
@@ -1167,23 +1527,12 @@
       document.getElementById('lightbox').style.display = 'none';
     }
 
-    // Back to top functionality
-    function scrollToTop() {
-      console.log('Back to top clicked!');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      // Fallback for older browsers
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }
-
-    // Show/hide back to top button
-    window.addEventListener('scroll', function() {
-      const backToTop = document.querySelector('.back-to-top');
-      if (window.pageYOffset > 300) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
+    document.getElementById('theme-toggle').addEventListener('click', event => {
+      const isCoolTheme = document.body.classList.toggle('theme-cool');
+      event.currentTarget.setAttribute('aria-pressed', String(isCoolTheme));
+      const nextTheme = isCoolTheme ? 'retro' : 'turquoise';
+      event.currentTarget.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+      event.currentTarget.title = `Switch to ${nextTheme} theme`;
     });
 
     // Set initial active tab
