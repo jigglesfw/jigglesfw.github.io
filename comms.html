@@ -730,7 +730,7 @@
       <img id="lightbox-img" src="" alt="Large preview">
     </div>
 
-    <section id="request-form" class="commission-block request-form" aria-labelledby="request-form-title" hidden>
+<section id="request-form" class="commission-block request-form" aria-labelledby="request-form-title" hidden>
       <div class="request-form-header">
         <div>
           <h1 id="request-form-title">Commission request</h1>
@@ -738,7 +738,7 @@
         </div>
         <button class="back-button" id="back-to-segments" type="button">Back to segments</button>
       </div>
-      <form id="custom-request-form" action="https://script.google.com/macros/s/AKfycbycxfUFmMlyxHGCLFr4X_qozICtY19wyQEBoqGUen85pyhVbfG1izwphJp7lNawbkKOfQ/exec" method="post" target="submission-response" accept-charset="UTF-8">
+      <form id="custom-request-form">
         <input type="hidden" id="commType" name="commType" value="">
         <div class="request-fields">
           <label class="request-field">Name/Nickname
@@ -754,24 +754,13 @@
             <textarea name="details" placeholder="Be as descriptive as possible! :3" required></textarea>
           </label>
           <label class="request-field request-field-wide">Reference images (1–3; PNG, JPEG, or GIF; max 5 MB each)
-            <input type="file" id="referenceImage" name="referenceImage" accept="image/png,image/jpeg,image/gif" multiple required>
+            <input type="file" id="referenceImage" accept="image/png,image/jpeg,image/gif" multiple required>
             <span class="commission-details" id="reference-image-status" aria-live="polite">Add at least one image. You can select up to three.</span>
           </label>
-          <input type="hidden" id="fileData" name="fileData" value="">
-          <input type="hidden" id="fileName" name="fileName" value="">
-          <input type="hidden" id="mimeType" name="mimeType" value="">
-          <input type="hidden" id="fileData2" name="fileData2" value="">
-          <input type="hidden" id="fileName2" name="fileName2" value="">
-          <input type="hidden" id="mimeType2" name="mimeType2" value="">
-          <input type="hidden" id="fileData3" name="fileData3" value="">
-          <input type="hidden" id="fileName3" name="fileName3" value="">
-          <input type="hidden" id="mimeType3" name="mimeType3" value="">
           <button class="submit-button" id="submit-btn" type="submit">Send request</button>
-          <p class="form-status request-field-wide" id="form-status" role="status" aria-live="polite"></p>
+          <p class="form-status request-field-wide" id="form-status" role="status" aria-live="polite" style="color: var(--accent); display: none; font-weight: bold;"></p>
         </div>
       </form>
-      <iframe id="submission-response" class="submission-frame" name="submission-response" title="Request submission response" aria-hidden="true" tabindex="-1"></iframe>
-      <p class="form-fallback">Submitting sends your request to the commission sheet. This page can’t verify the sheet response, so contact me if you don’t hear back.</p>
     </section>
   </div>
 
@@ -1049,14 +1038,6 @@
     document.getElementById('next-button').addEventListener('click', openRequestForm);
     document.getElementById('back-to-segments').addEventListener('click', returnToSegments);
 
-    document.getElementById('submission-response').addEventListener('load', () => {
-      if (!submissionPending) return;
-
-      submissionPending = false;
-      document.getElementById('submit-btn').textContent = 'Request sent';
-      document.getElementById('form-status').textContent = 'Your request was submitted. This page can’t confirm whether it was added to the sheet.';
-    });
-
     requestForm.addEventListener('submit', async event => {
       event.preventDefault();
 
@@ -1074,23 +1055,72 @@
 
       submitButton.disabled = true;
       submitButton.textContent = 'Uploading & sending...';
+      statusText.style.display = 'block';
+      statusText.style.color = 'var(--muted)';
       statusText.textContent = 'Preparing your image and request...';
 
       try {
-        await prepareReferenceImageFields(files);
-        document.getElementById('commType').value = selectedCommission.dataset.segmentName;
-        fileInput.disabled = true;
         submissionPending = true;
-        HTMLFormElement.prototype.submit.call(requestForm);
-        fileInput.disabled = false;
+        
+        // Bundle standard text fields
+        const formData = new FormData(requestForm);
+        formData.set('commType', selectedCommission.dataset.segmentName);
+
+        // Bundle images using Base64
+        const imageData = await Promise.all(files.map(async file => ({
+          base64: await imageFileToBase64(file),
+          name: file.name,
+          mimeType: file.type
+        })));
+
+        for (let i = 0; i < imageData.length; i++) {
+          const suffix = i === 0 ? '' : String(i + 1);
+          formData.append(`fileData${suffix}`, imageData[i].base64);
+          formData.append(`fileName${suffix}`, imageData[i].name);
+          formData.append(`mimeType${suffix}`, imageData[i].mimeType);
+        }
+
+        // Send to Apps Script Web App
+        const webAppUrl = 'https://script.google.com/macros/s/AKfycbwmw9yOhEbme8rMxEBPdJrd-l9klEvub3XDOqlTTFjUpXFrA11xRV_OWSfgeD0A5zNl7A/exec';
+        
+        const response = await fetch(webAppUrl, { 
+          method: 'POST', 
+          body: formData 
+        });
+
+        if (!response.ok) {
+          throw new Error(`Apps Script returned HTTP ${response.status}. Check the deployed web app URL and doPost handler.`);
+        }
+
+        const responseText = await response.text();
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch {
+          throw new Error(`Apps Script returned non-JSON content (HTTP ${response.status}).`);
+        }
+        
+        if (result.result === "success") {
+            submitButton.textContent = 'Request sent!';
+            statusText.style.color = 'var(--accent)';
+            statusText.textContent = 'Success! Your request and images have been saved.';
+            requestForm.reset();
+            document.getElementById('reference-image-status').textContent = 'Add at least one image. You can select up to three.';
+        } else {
+            throw new Error(result.message);
+        }
+
       } catch (error) {
-        console.error('Could not prepare commission request:', error);
+        console.error('Submission error:', error);
         submitButton.disabled = false;
         submitButton.textContent = 'Send request';
-        statusText.textContent = 'The image could not be prepared. Please try again.';
+        statusText.style.color = '#ff6b6b';
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        statusText.textContent = `Submission failed or could not be confirmed: ${errorMessage} Check the sheet before retrying to avoid a duplicate.`;
+      } finally {
+        submissionPending = false;
       }
     });
-
     function startRequest() {
       if (selectedCommission) {
         openRequestForm();
