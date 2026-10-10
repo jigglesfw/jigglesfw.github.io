@@ -1,14 +1,21 @@
 import os
 import json
+import re
 from PIL import Image, ImageOps
 
 OBJ_DIR = 'FBXs'
 output_file = os.path.join(OBJ_DIR, 'modelList.json')
 GALLERY_DIRS = ('Doodle', 'Icons', 'Halfbodies', 'Fullbodies')
+ART_ROOT = 'Art PNGs'
 GALLERY_OUTPUT = 'galleryList.js'
 THUMBNAIL_ROOT = 'GalleryThumbnails'
 THUMBNAIL_SIZE = (512, 512)
 IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif', '.bmp', '.svg'}
+
+
+def natural_sort_key(value):
+    return [int(part) if part.isdigit() else part.casefold() for part in re.split(r'(\d+)', value)]
+
 
 models = []
 
@@ -29,7 +36,8 @@ print(f"Generated model list with {len(models)} entries.")
 galleries = {}
 thumbnail_count = 0
 for folder in GALLERY_DIRS:
-    if not os.path.isdir(folder):
+    folder_path = os.path.join(ART_ROOT, folder)
+    if not os.path.isdir(folder_path):
         galleries[folder] = []
         continue
 
@@ -40,15 +48,15 @@ for folder in GALLERY_DIRS:
     filenames = sorted(
         (
             filename
-            for filename in os.listdir(folder)
-            if os.path.isfile(os.path.join(folder, filename))
+            for filename in os.listdir(folder_path)
+            if os.path.isfile(os.path.join(folder_path, filename))
             and os.path.splitext(filename)[1].lower() in IMAGE_EXTENSIONS
         ),
-        key=str.casefold,
+        key=natural_sort_key,
     )
 
     for filename in filenames:
-        source_path = os.path.join(folder, filename)
+        source_path = os.path.join(folder_path, filename)
         thumbnail_name = f'{filename}.webp'
         thumbnail_path = os.path.join(thumbnail_folder, thumbnail_name)
 

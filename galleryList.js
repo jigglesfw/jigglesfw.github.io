@@ -1,158 +1,154 @@
 window.commissionGallery = {
   "Doodle": [
     {
-      "file": "brochibust.png",
-      "thumbnail": "brochibust.png.webp"
+      "file": "Doodle (1).png",
+      "thumbnail": "Doodle (1).png.webp"
     },
     {
-      "file": "brochidoodle.png",
-      "thumbnail": "brochidoodle.png.webp"
+      "file": "Doodle (2).png",
+      "thumbnail": "Doodle (2).png.webp"
     },
     {
-      "file": "croc.png",
-      "thumbnail": "croc.png.webp"
+      "file": "Doodle (3).png",
+      "thumbnail": "Doodle (3).png.webp"
     },
     {
-      "file": "fops.png",
-      "thumbnail": "fops.png.webp"
+      "file": "Doodle (4).png",
+      "thumbnail": "Doodle (4).png.webp"
     },
     {
-      "file": "kindred.png",
-      "thumbnail": "kindred.png.webp"
+      "file": "Doodle (5).png",
+      "thumbnail": "Doodle (5).png.webp"
     },
     {
-      "file": "kittay.png",
-      "thumbnail": "kittay.png.webp"
+      "file": "Doodle (6).png",
+      "thumbnail": "Doodle (6).png.webp"
     },
     {
-      "file": "legoshi.png",
-      "thumbnail": "legoshi.png.webp"
+      "file": "Doodle (7).png",
+      "thumbnail": "Doodle (7).png.webp"
     },
     {
-      "file": "ohjygmod.png",
-      "thumbnail": "ohjygmod.png.webp"
+      "file": "Doodle (8).png",
+      "thumbnail": "Doodle (8).png.webp"
     },
     {
-      "file": "roxxdoodle.png",
-      "thumbnail": "roxxdoodle.png.webp"
+      "file": "Doodle (9).png",
+      "thumbnail": "Doodle (9).png.webp"
     },
     {
-      "file": "zodiac.png",
-      "thumbnail": "zodiac.png.webp"
+      "file": "Doodle (10).png",
+      "thumbnail": "Doodle (10).png.webp"
+    },
+    {
+      "file": "Doodle (11).png",
+      "thumbnail": "Doodle (11).png.webp"
     }
   ],
   "Icons": [
     {
-      "file": "BeeCrazy.png",
-      "thumbnail": "BeeCrazy.png.webp"
+      "file": "Icon (1).png",
+      "thumbnail": "Icon (1).png.webp"
     },
     {
-      "file": "deer.png",
-      "thumbnail": "deer.png.webp"
+      "file": "Icon (2).png",
+      "thumbnail": "Icon (2).png.webp"
     },
     {
-      "file": "gift1.png",
-      "thumbnail": "gift1.png.webp"
+      "file": "Icon (3).png",
+      "thumbnail": "Icon (3).png.webp"
     },
     {
-      "file": "gift2.png",
-      "thumbnail": "gift2.png.webp"
+      "file": "Icon (4).png",
+      "thumbnail": "Icon (4).png.webp"
     },
     {
-      "file": "IMG_0894.png",
-      "thumbnail": "IMG_0894.png.webp"
-    },
-    {
-      "file": "Loonwuzhere.png",
-      "thumbnail": "Loonwuzhere.png.webp"
+      "file": "Icon (5).png",
+      "thumbnail": "Icon (5).png.webp"
     }
   ],
   "Halfbodies": [
     {
-      "file": "alfie.png",
-      "thumbnail": "alfie.png.webp"
+      "file": "Halfbody (1).png",
+      "thumbnail": "Halfbody (1).png.webp"
     },
     {
-      "file": "big guy.png",
-      "thumbnail": "big guy.png.webp"
+      "file": "Halfbody (2).png",
+      "thumbnail": "Halfbody (2).png.webp"
     },
     {
-      "file": "burd.png",
-      "thumbnail": "burd.png.webp"
+      "file": "Halfbody (3).png",
+      "thumbnail": "Halfbody (3).png.webp"
     },
     {
-      "file": "cougar lady.png",
-      "thumbnail": "cougar lady.png.webp"
+      "file": "Halfbody (4).png",
+      "thumbnail": "Halfbody (4).png.webp"
     },
     {
-      "file": "dawg.png",
-      "thumbnail": "dawg.png.webp"
+      "file": "Halfbody (5).png",
+      "thumbnail": "Halfbody (5).png.webp"
     },
     {
-      "file": "isabelle.png",
-      "thumbnail": "isabelle.png.webp"
+      "file": "Halfbody (6).png",
+      "thumbnail": "Halfbody (6).png.webp"
     },
     {
-      "file": "margot.png",
-      "thumbnail": "margot.png.webp"
+      "file": "Halfbody (7).png",
+      "thumbnail": "Halfbody (7).png.webp"
     },
     {
-      "file": "office gals.png",
-      "thumbnail": "office gals.png.webp"
+      "file": "Halfbody (8).png",
+      "thumbnail": "Halfbody (8).png.webp"
     },
     {
-      "file": "rune.png",
-      "thumbnail": "rune.png.webp"
+      "file": "Halfbody (9).png",
+      "thumbnail": "Halfbody (9).png.webp"
     },
     {
-      "file": "stargazing.png",
-      "thumbnail": "stargazing.png.webp"
+      "file": "Halfbody (10).png",
+      "thumbnail": "Halfbody (10).png.webp"
     },
     {
-      "file": "sybil.png",
-      "thumbnail": "sybil.png.webp"
-    },
-    {
-      "file": "toriel.png",
-      "thumbnail": "toriel.png.webp"
-    },
-    {
-      "file": "valentineyay.png",
-      "thumbnail": "valentineyay.png.webp"
+      "file": "Halfbody (11).png",
+      "thumbnail": "Halfbody (11).png.webp"
     }
   ],
   "Fullbodies": [
     {
-      "file": "ACALT.png",
-      "thumbnail": "ACALT.png.webp"
+      "file": "Fullbody (1).png",
+      "thumbnail": "Fullbody (1).png.webp"
     },
     {
-      "file": "gift3.png",
-      "thumbnail": "gift3.png.webp"
+      "file": "Fullbody (2).png",
+      "thumbnail": "Fullbody (2).png.webp"
     },
     {
-      "file": "gift4.png",
-      "thumbnail": "gift4.png.webp"
+      "file": "Fullbody (3).png",
+      "thumbnail": "Fullbody (3).png.webp"
     },
     {
-      "file": "mask.png",
-      "thumbnail": "mask.png.webp"
+      "file": "Fullbody (4).png",
+      "thumbnail": "Fullbody (4).png.webp"
     },
     {
-      "file": "me and babe 1.png",
-      "thumbnail": "me and babe 1.png.webp"
+      "file": "Fullbody (5).png",
+      "thumbnail": "Fullbody (5).png.webp"
     },
     {
-      "file": "possumcredit.png",
-      "thumbnail": "possumcredit.png.webp"
+      "file": "Fullbody (6).png",
+      "thumbnail": "Fullbody (6).png.webp"
     },
     {
-      "file": "REPTILEZ.png",
-      "thumbnail": "REPTILEZ.png.webp"
+      "file": "Fullbody (7).png",
+      "thumbnail": "Fullbody (7).png.webp"
     },
     {
-      "file": "tanya1.png",
-      "thumbnail": "tanya1.png.webp"
+      "file": "Fullbody (8).png",
+      "thumbnail": "Fullbody (8).png.webp"
+    },
+    {
+      "file": "Fullbody (9).png",
+      "thumbnail": "Fullbody (9).png.webp"
     }
   ]
 };

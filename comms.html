@@ -152,7 +152,7 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: repeat(2, minmax(0, 1fr));
-      aspect-ratio: 1.35 / 1;
+      aspect-ratio: 1 / 1.35;
       gap: 0.35rem;
       overflow: hidden;
       border-radius: 5px;
@@ -311,6 +311,83 @@
       gap: 1rem;
     }
 
+    .estimate-controls {
+      display: grid;
+      grid-column: 1 / -1;
+      gap: 0.75rem;
+      padding: 1rem 0;
+      border-block: 1px solid var(--line);
+    }
+
+    .estimate-primary {
+      display: grid;
+      width: min(100%, 740px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .estimate-modifiers {
+      display: flex;
+      min-height: 44px;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem clamp(1rem, 3vw, 2rem);
+    }
+
+    .estimate-toggle {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .estimate-toggle input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent);
+    }
+
+    .estimate-character-control {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      gap: 0.5rem;
+    }
+
+    .estimate-character-control > span:first-child {
+      white-space: nowrap;
+    }
+
+    .estimate-character-control input {
+      flex: 0 0 3.5rem;
+      width: 3.5rem;
+      height: 2.5rem;
+      padding: 0.35rem;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface-raised);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    #extra-character-rate-label {
+      flex: 0 0 auto;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .estimate-output {
+      grid-column: 1 / -1;
+    }
+
+    .estimate-total {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
     .request-field {
       display: grid;
       gap: 0.35rem;
@@ -323,7 +400,8 @@
     }
 
     .request-field input,
-    .request-field textarea {
+    .request-field textarea,
+    .request-field select {
       width: 100%;
       padding: 0.7rem 0.75rem;
       border: 1px solid var(--line);
@@ -335,7 +413,8 @@
     }
 
     .request-field input:focus,
-    .request-field textarea:focus {
+    .request-field textarea:focus,
+    .request-field select:focus {
       border-color: var(--accent);
       outline: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
     }
@@ -549,6 +628,14 @@
         gap: 1rem;
       }
 
+      .gallery-card .price-tag {
+        position: static;
+      }
+
+      .gallery-card .commission-heading {
+        align-items: center;
+      }
+
       .gallery-grid {
         width: min(100%, 360px);
       }
@@ -576,6 +663,14 @@
 
       .request-fields {
         grid-template-columns: minmax(0, 1fr);
+      }
+
+      .estimate-controls {
+        grid-column: 1;
+      }
+
+      .estimate-modifiers {
+        gap: 0.5rem 1rem;
       }
 
       .request-field-wide {
@@ -689,13 +784,13 @@
 
     }
 
-    .back-button {
+    body:not(.theme-cool) .back-button {
       border-color: #a33e91;
       background-color: #281239;
       color: var(--ink);
     }
 
-    .back-button:hover {
+    body:not(.theme-cool) .back-button:hover {
       border-color: var(--accent-pink);
       color: var(--accent-pink);
       box-shadow: 0 0 10px rgba(255, 79, 189, 0.25);
@@ -729,15 +824,17 @@
       box-shadow: none;
     }
 
-    .request-field input,
-    .request-field textarea {
+    body:not(.theme-cool) .request-field input,
+    body:not(.theme-cool) .request-field textarea,
+    body:not(.theme-cool) .request-field select {
       border-color: #573166;
       background-color: rgba(12, 8, 22, 0.92);
       color: var(--ink);
     }
 
-    .request-field input:focus,
-    .request-field textarea:focus {
+    body:not(.theme-cool) .request-field input:focus,
+    body:not(.theme-cool) .request-field textarea:focus,
+    body:not(.theme-cool) .request-field select:focus {
       border-color: var(--accent);
       outline-color: rgba(88, 239, 255, 0.35);
       box-shadow: 0 0 11px rgba(88, 239, 255, 0.16);
@@ -920,6 +1017,12 @@
       nav button {
         font-size: 0.48rem;
       }
+
+      .gallery-card .price-tag,
+      body.theme-cool .gallery-card .price-tag {
+        padding: 0.35rem 0.4rem;
+        font-size: 0.72rem;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -994,13 +1097,13 @@
     <div id="2D" class="content-section active">
         <div class="commission-block commission-intro">
           <h1>Information</h1>
-          <p class="commission-details">NSFW OK! + $15 USD<br>Additional Character + 50%<br>Comes with simple BG - Ask me about detailed ones!<br>Price may vary for complex patterns/decals/accessories.</p>
+          <p class="commission-details">NSFW OK! + $15 USD<br>Additional Character + 50% <br> Watercolor/Chalk/Detailed Render Available. <br>Comes with simple BG - Ask me about detailed ones!</p>
         </div>
 
         <div class="commission-block gallery-card commission-option" data-gallery-folder="Doodle" data-gallery-label="Doodle" data-segment-id="doodle" data-segment-name="Doodle" tabindex="0" role="group" aria-label="Doodle commission segment">
           <div class="gallery-grid" data-featured-gallery aria-label="Doodle artwork previews"></div>
           <div class="gallery-copy">
-            <div class="commission-heading"><h1>Doodle</h1><span class="price-tag" data-price-display>$10–30 USD</span></div>
+            <div class="commission-heading"><h1>Doodle</h1><span class="price-tag">50% Off!</span></div>
             <p class="commission-details">Want something simple?<br>Don't know what to expect?<br>I'll do sum' quick and sketch-y for you! ;3</p>
             <details class="more-examples" hidden>
               <summary>More examples</summary>
@@ -1087,15 +1190,54 @@
           <h1 id="request-form-title">Commission request</h1>
           <p>Selected segment: <strong id="request-segment-name"></strong></p>
         </div>
-        <button class="back-button" id="back-to-segments" type="button">Back to segments</button>
+        <button class="back-button" id="back-to-segments" type="button"> Return</button>
       </div>
       <form id="custom-request-form">
         <input type="hidden" id="commType" name="commType" value="">
+        <input type="hidden" id="estimatedMinimum" name="estimatedMinimum" value="">
+        <input type="hidden" id="estimateSummary" name="estimateSummary" value="">
         <div class="request-fields">
+          <div class="estimate-controls">
+            <div class="estimate-primary">
+              <label class="request-field estimate-type-control" data-estimate-2d-option>Commission Type
+                <select id="estimate-type" name="commissionType" required>
+                  <option value="" selected disabled>Select a commission type</option>
+                  <option value="Icon / Bust">Icon / Bust</option>
+                  <option value="Halfbody">Halfbody</option>
+                  <option value="Fullbody">Fullbody</option>
+                </select>
+              </label>
+              <label class="request-field" data-estimate-2d-option>Commission Detail
+                <select id="estimate-render-style" name="renderStyle">
+                  <option value="lineart">Lineart (+$0.00)</option>
+                  <option value="flat">Flat (+$15.00)</option>
+                  <option value="render">Rendered (+$30.00)</option>
+                </select>
+              </label>
+            </div>
+            <div class="estimate-modifiers" id="estimate-modifiers">
+              <label class="estimate-toggle" data-estimate-2d-option>
+                <input type="checkbox" id="estimate-doodle" name="doodle" value="Yes">
+                <span id="doodle-discount-label">Doodle (-50%)</span>
+              </label>
+              <label class="estimate-toggle" data-estimate-2d-option>
+                <input type="checkbox" id="estimate-nsfw" name="nsfw" value="Yes">
+                <span id="nsfw-surcharge-label">NSFW (+$15)</span>
+              </label>
+              <label class="estimate-toggle estimate-character-control" data-estimate-2d-option>
+                <span>Additional Characters</span>
+                <input type="number" id="estimate-extra-characters" name="extraCharacters" min="0" max="20" step="1" value="0" inputmode="numeric">
+                <span class="commission-details" id="extra-character-rate-label">+50% each</span>
+              </label>
+            </div>
+            <div class="estimate-output" role="status" aria-live="polite">
+              <p class="estimate-total" id="estimate-total">Minimum Estimate: $0.00+</p>
+            </div>
+          </div>
           <label class="request-field">Name/Nickname
             <input type="text" name="name" autocomplete="name" required>
           </label>
-          <label class="request-field">Contact method
+          <label class="request-field">Contact Method
             <input type="text" name="contactMethod" placeholder="Discord, Twitter, Instagram, etc." autocomplete="off" required>
           </label>
           <label class="request-field">Username
@@ -1150,7 +1292,7 @@
       const fileName = artwork.file;
       const artworkName = fileName.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ');
       const imageDescription = `${categoryLabel} artwork: ${artworkName}`;
-      const originalUrl = `${folderName}/${encodeURIComponent(fileName)}`;
+      const originalUrl = `Art%20PNGs/${encodeURIComponent(folderName)}/${encodeURIComponent(fileName)}`;
       const thumbnailUrl = artwork.thumbnail
         ? `GalleryThumbnails/${encodeURIComponent(folderName)}/${encodeURIComponent(artwork.thumbnail)}`
         : originalUrl;
@@ -1207,6 +1349,13 @@
     populateGalleries();
 
     const priceSheetCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG7KpoJ_D2iWgGppEBeltV1j1M5-R9xOCq3AOBzKscUUlX3J46M1lc0u6xP8EcbtrkmRURJZK8fUFv/pub?output=csv';
+  const minimumPriceByType = new Map();
+    const estimatePricing = {
+      nsfwSurcharge: 15,
+      additionalCharacterRate: 0.5,
+      doodleDiscountRate: 0.5,
+      renderStyleSurcharges: { lineart: 0, flat: 15, render: 30 }
+    };
 
     function parseCsv(csvText) {
       const rows = [];
@@ -1249,6 +1398,52 @@
       return rows.filter(csvRow => csvRow.some(value => value.trim()));
     }
 
+    function parseMinimumPrice(price) {
+      const match = String(price ?? '').match(/\d+(?:\.\d+)?/);
+      return match ? Number(match[0]) : null;
+    }
+
+    function parseSheetRate(value, fallback, isPercentage = false) {
+      const match = String(value ?? '').match(/-?\d+(?:\.\d+)?/);
+      if (!match) return fallback;
+
+      const parsedValue = Number(match[0]);
+      if (!Number.isFinite(parsedValue)) return fallback;
+      return isPercentage
+        ? parsedValue / (String(value).includes('%') || parsedValue > 1 ? 100 : 1)
+        : parsedValue;
+    }
+
+    function getSheetSetting(rows, headers, columnName, fallback, isPercentage = false) {
+      const typeColumn = headers.indexOf('commission type');
+      const priceColumn = headers.indexOf('price (usd)');
+      const settingRow = rows.find(row => row[typeColumn]?.trim().toLowerCase() === columnName);
+      const rowValue = settingRow?.[priceColumn]?.trim();
+      if (rowValue) return parseSheetRate(rowValue, fallback, isPercentage);
+
+      const column = headers.indexOf(columnName);
+      if (column < 0) return fallback;
+      const value = rows.map(row => row[column]?.trim()).find(Boolean);
+      return value ? parseSheetRate(value, fallback, isPercentage) : fallback;
+    }
+
+    function getNamedSheetRate(rows, headers, names, fallback) {
+      const typeColumn = headers.indexOf('commission type');
+      const priceColumn = headers.indexOf('price (usd)');
+      const rateRow = rows.find(row => names.includes(row[typeColumn]?.trim().toLowerCase()));
+      return rateRow ? parseMinimumPrice(rateRow[priceColumn]) ?? fallback : fallback;
+    }
+
+    function updateEstimateOptionLabels() {
+      document.getElementById('nsfw-surcharge-label').textContent = `NSFW (+${formatCurrency(estimatePricing.nsfwSurcharge)})`;
+      document.getElementById('extra-character-rate-label').textContent = `+${estimatePricing.additionalCharacterRate * 100}% each`;
+      document.getElementById('doodle-discount-label').textContent = `Doodle (-${estimatePricing.doodleDiscountRate * 100}%)`;
+      const renderStyle = document.getElementById('estimate-render-style');
+      renderStyle.querySelector('[value="lineart"]').textContent = `Lineart (+${formatCurrency(estimatePricing.renderStyleSurcharges.lineart)})`;
+      renderStyle.querySelector('[value="flat"]').textContent = `Flat (+${formatCurrency(estimatePricing.renderStyleSurcharges.flat)})`;
+      renderStyle.querySelector('[value="render"]').textContent = `Rendered (+${formatCurrency(estimatePricing.renderStyleSurcharges.render)})`;
+    }
+
     async function updateCommissionPrices() {
       try {
         const response = await fetch(priceSheetCsvUrl, { cache: 'no-store' });
@@ -1263,16 +1458,40 @@
           throw new Error('Price sheet must include Commission Type and Price (USD) columns.');
         }
 
-        const priceByType = new Map(rows.map(row => [
+        estimatePricing.nsfwSurcharge = getSheetSetting(rows, headers, 'nsfw surcharge (usd)', estimatePricing.nsfwSurcharge);
+        estimatePricing.additionalCharacterRate = getSheetSetting(rows, headers, 'additional character rate (%)', estimatePricing.additionalCharacterRate, true);
+        estimatePricing.doodleDiscountRate = getSheetSetting(rows, headers, 'doodle discount (%)', estimatePricing.doodleDiscountRate, true);
+        estimatePricing.renderStyleSurcharges.lineart = getNamedSheetRate(rows, headers, ['lineart'], 0);
+        estimatePricing.renderStyleSurcharges.flat = getNamedSheetRate(rows, headers, ['flat'], 15);
+        estimatePricing.renderStyleSurcharges.render = getNamedSheetRate(rows, headers, ['render', 'rendered'], 30);
+        updateEstimateOptionLabels();
+
+        const settingNames = new Set([
+          'nsfw surcharge (usd)',
+          'additional character rate (%)',
+          'doodle discount (%)',
+          'lineart',
+          'flat',
+          'render',
+          'rendered'
+        ]);
+        const priceByType = new Map(rows.filter(row => !settingNames.has(row[typeColumn]?.trim().toLowerCase())).map(row => [
           row[typeColumn]?.trim().toLowerCase(),
           row[priceColumn]?.trim()
         ]).filter(([type, price]) => type && price));
+
+        minimumPriceByType.clear();
+        priceByType.forEach((price, type) => {
+          const minimumPrice = parseMinimumPrice(price);
+          if (minimumPrice !== null) minimumPriceByType.set(type, minimumPrice);
+        });
 
         document.querySelectorAll('.commission-option[data-segment-name]').forEach(segment => {
           const price = priceByType.get(segment.dataset.segmentName.trim().toLowerCase());
           const priceDisplay = segment.querySelector('[data-price-display]');
           if (price && priceDisplay) priceDisplay.textContent = `$${price} USD`;
         });
+        updateEstimate();
       } catch (error) {
         console.error('Could not load dynamic commission prices:', error);
       }
@@ -1284,6 +1503,115 @@
     let selectedCommission = null;
     let submissionPending = false;
 
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 2
+      }).format(amount);
+    }
+
+    function getMinimumPriceFor(type) {
+      const normalizedType = type.trim().toLowerCase();
+      if (minimumPriceByType.has(normalizedType)) return minimumPriceByType.get(normalizedType);
+
+      const segment = Array.from(document.querySelectorAll('.commission-option[data-segment-name]'))
+        .find(option => option.dataset.segmentName.trim().toLowerCase() === normalizedType);
+      return parseMinimumPrice(segment?.querySelector('[data-price-display]')?.textContent);
+    }
+
+    function updateEstimate() {
+      const estimateTotal = document.getElementById('estimate-total');
+      const estimateModifiers = document.getElementById('estimate-modifiers');
+      const estimateOptions = document.querySelectorAll('[data-estimate-2d-option]');
+      const estimateMinimumField = document.getElementById('estimatedMinimum');
+
+      if (!selectedCommission) {
+        estimateTotal.textContent = 'Minimum estimate: $0.00+';
+        estimateMinimumField.value = '0.00';
+        document.getElementById('estimateSummary').value = '';
+        estimateModifiers.hidden = true;
+        estimateOptions.forEach(option => {
+          option.hidden = true;
+          option.querySelectorAll('input, select').forEach(control => { control.disabled = true; });
+        });
+        return;
+      }
+
+      const isTwoDimensional = Boolean(selectedCommission.closest('[id="2D"]'));
+      estimateModifiers.hidden = !isTwoDimensional;
+      estimateOptions.forEach(option => {
+        option.hidden = !isTwoDimensional;
+        option.querySelectorAll('input, select').forEach(control => { control.disabled = !isTwoDimensional; });
+      });
+
+      const commissionType = document.getElementById('estimate-type').value;
+      const renderStyle = document.getElementById('estimate-render-style').value;
+      const renderStyleLabel = renderStyle === 'render' ? 'Rendered' : `${renderStyle[0].toUpperCase()}${renderStyle.slice(1)}`;
+      const isDoodle = isTwoDimensional && document.getElementById('estimate-doodle').checked;
+      const isNsfw = isTwoDimensional && document.getElementById('estimate-nsfw').checked;
+      const extraCharacters = isTwoDimensional
+        ? Number.parseInt(document.getElementById('estimate-extra-characters').value, 10) || 0
+        : 0;
+      if (isTwoDimensional && !commissionType) {
+        estimateTotal.textContent = 'Minimum estimate: $0.00+';
+        estimateMinimumField.value = '0.00';
+        document.getElementById('estimateSummary').value = 'Commission type not selected; minimum estimate: $0.00+.';
+        document.getElementById('request-segment-name').textContent = isDoodle ? 'Doodle (select a type)' : 'Select a commission type';
+        document.getElementById('commType').value = '';
+        return;
+      }
+
+      const rateType = isTwoDimensional ? commissionType : selectedCommission.dataset.segmentName;
+      const basePrice = getMinimumPriceFor(rateType);
+
+      if (basePrice === null) {
+        estimateTotal.textContent = 'Minimum estimate unavailable';
+        estimateMinimumField.value = '';
+        document.getElementById('estimateSummary').value = 'Minimum estimate unavailable.';
+        return;
+      }
+
+      const doodleDiscount = isDoodle ? basePrice * estimatePricing.doodleDiscountRate : 0;
+      const discountedBase = basePrice - doodleDiscount;
+      const renderStyleSurcharge = isTwoDimensional
+        ? estimatePricing.renderStyleSurcharges[renderStyle] ?? 0
+        : 0;
+      const characterSurcharge = discountedBase * estimatePricing.additionalCharacterRate * extraCharacters;
+      const nsfwSurcharge = isNsfw ? estimatePricing.nsfwSurcharge : 0;
+      const minimumTotal = discountedBase + renderStyleSurcharge + characterSurcharge + nsfwSurcharge;
+      const requestLabel = isTwoDimensional
+        ? `${isDoodle ? 'Doodle ' : ''}${commissionType} / ${renderStyleLabel}`
+        : selectedCommission.dataset.segmentName;
+
+      estimateTotal.textContent = `Minimum Estimate: ${formatCurrency(minimumTotal)}+`;
+      estimateMinimumField.value = minimumTotal.toFixed(2);
+      document.getElementById('request-segment-name').textContent = requestLabel;
+      document.getElementById('commType').value = requestLabel;
+      document.getElementById('selected-segment').textContent = requestLabel;
+      document.getElementById('estimateSummary').value = buildEstimateSummary();
+    }
+
+    function buildEstimateSummary() {
+      if (!selectedCommission) return '';
+
+      const minimumAmount = document.getElementById('estimatedMinimum').value;
+      if (!minimumAmount) return 'Commission type not selected; no estimate available.';
+
+      if (!selectedCommission.closest('[id="2D"]')) {
+        return `Commission type: ${selectedCommission.dataset.segmentName}; minimum estimate: ${formatCurrency(Number(minimumAmount))}+.`;
+      }
+
+      const commissionType = document.getElementById('estimate-type').value;
+      const renderStyle = document.getElementById('estimate-render-style').value;
+      const renderStyleLabel = renderStyle === 'render' ? 'Rendered' : `${renderStyle[0].toUpperCase()}${renderStyle.slice(1)}`;
+      const isDoodle = document.getElementById('estimate-doodle').checked;
+      const isNsfw = document.getElementById('estimate-nsfw').checked;
+      const extraCharacters = Number.parseInt(document.getElementById('estimate-extra-characters').value, 10) || 0;
+      const renderStyleSurcharge = estimatePricing.renderStyleSurcharges[renderStyle] ?? 0;
+      return `Commission type: ${commissionType}; Render Style: ${renderStyleLabel}; Doodle: ${isDoodle ? `yes (-${estimatePricing.doodleDiscountRate * 100}%)` : 'no'}; NSFW: ${isNsfw ? `yes (+${formatCurrency(estimatePricing.nsfwSurcharge)})` : 'no'}; Additional Characters: ${extraCharacters} (+${estimatePricing.additionalCharacterRate * 100}% each); Render Style Surcharge: ${formatCurrency(renderStyleSurcharge)}; Minimum Estimate: ${formatCurrency(Number(minimumAmount))}+.`;
+    }
+
     function selectCommission(segment) {
       if (selectedCommission === segment) {
         selectedCommission = null;
@@ -1293,6 +1621,7 @@
         document.getElementById('selected-segment').hidden = true;
         document.getElementById('next-button').disabled = true;
         document.getElementById('selection-bar').hidden = true;
+        updateEstimate();
         return;
       }
 
@@ -1309,6 +1638,17 @@
       selectedSegment.hidden = false;
       document.getElementById('next-button').disabled = false;
       document.getElementById('selection-bar').hidden = false;
+
+      if (segment.closest('[id="2D"]')) {
+        if (segment.dataset.segmentName === 'Doodle') {
+          document.getElementById('estimate-doodle').checked = true;
+          document.getElementById('estimate-type').value = '';
+        } else {
+          document.getElementById('estimate-type').value = segment.dataset.segmentName;
+          document.getElementById('estimate-doodle').checked = false;
+        }
+      }
+      updateEstimate();
     }
 
     function openRequestForm() {
@@ -1321,11 +1661,19 @@
       }
 
       document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
-      document.getElementById('request-segment-name').textContent = selectedCommission.dataset.segmentName;
-      document.getElementById('commType').value = selectedCommission.dataset.segmentName;
+      if (selectedCommission.closest('[id="2D"]')) {
+        if (selectedCommission.dataset.segmentName === 'Doodle') {
+          document.getElementById('estimate-doodle').checked = true;
+          document.getElementById('estimate-type').value = '';
+        } else {
+          document.getElementById('estimate-type').value = selectedCommission.dataset.segmentName;
+          document.getElementById('estimate-doodle').checked = false;
+        }
+      }
       document.getElementById('form-status').textContent = '';
       document.getElementById('request-form').hidden = false;
       document.getElementById('selection-bar').hidden = true;
+      updateEstimate();
       document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -1411,6 +1759,33 @@
     document.getElementById('next-button').addEventListener('click', openRequestForm);
     document.getElementById('back-to-segments').addEventListener('click', returnToSegments);
 
+    function syncSelectedCommissionType() {
+      if (!selectedCommission?.closest('[id="2D"]')) return;
+
+      const commissionType = document.getElementById('estimate-type').value;
+      const matchingSegment = Array.from(document.querySelectorAll('[id="2D"] .commission-option[data-segment-name]'))
+        .find(segment => segment.dataset.segmentName === commissionType);
+      if (matchingSegment) {
+        selectedCommission = matchingSegment;
+        document.querySelectorAll('.commission-option').forEach(option => {
+          option.classList.toggle('is-selected', option === matchingSegment);
+        });
+      }
+      updateEstimate();
+    }
+
+    document.getElementById('estimate-type').addEventListener('change', syncSelectedCommissionType);
+    document.getElementById('estimate-render-style').addEventListener('change', updateEstimate);
+    document.getElementById('estimate-doodle').addEventListener('change', () => {
+      if (!document.getElementById('estimate-doodle').checked && selectedCommission?.dataset.segmentName === 'Doodle') {
+        syncSelectedCommissionType();
+      } else {
+        updateEstimate();
+      }
+    });
+    document.getElementById('estimate-nsfw').addEventListener('change', updateEstimate);
+    document.getElementById('estimate-extra-characters').addEventListener('input', updateEstimate);
+
     requestForm.addEventListener('submit', async event => {
       event.preventDefault();
 
@@ -1438,11 +1813,15 @@
         
         // Bundle standard text fields
         const formData = new FormData(requestForm);
-        formData.set('commType', selectedCommission.dataset.segmentName);
+        formData.set('commType', document.getElementById('commType').value);
         const referenceLinks = String(formData.get('references') || '').trim();
-        if (referenceLinks) {
-          formData.set('details', `${formData.get('details')}\n\nReference links:\n${referenceLinks}`);
-        }
+        const submissionDetails = [
+          String(formData.get('details') || '').trim(),
+          `Price estimate: ${buildEstimateSummary()}`,
+          referenceLinks ? `Reference links:\n${referenceLinks}` : ''
+        ].filter(Boolean);
+        formData.set('details', submissionDetails.join('\n\n'));
+        formData.set('estimateSummary', buildEstimateSummary());
 
         // Bundle images using Base64
         const imageData = await Promise.all(files.map(async file => ({
@@ -1527,8 +1906,17 @@
       document.getElementById('lightbox').style.display = 'none';
     }
 
-    document.getElementById('theme-toggle').addEventListener('click', event => {
+    const themeToggle = document.getElementById('theme-toggle');
+    const isCoolTheme = localStorage.getItem('commissionTheme') === 'teal';
+    document.body.classList.toggle('theme-cool', isCoolTheme);
+    themeToggle.setAttribute('aria-pressed', String(isCoolTheme));
+    const initialNextTheme = isCoolTheme ? 'retro' : 'turquoise';
+    themeToggle.setAttribute('aria-label', `Switch to ${initialNextTheme} theme`);
+    themeToggle.title = `Switch to ${initialNextTheme} theme`;
+
+    themeToggle.addEventListener('click', event => {
       const isCoolTheme = document.body.classList.toggle('theme-cool');
+      localStorage.setItem('commissionTheme', isCoolTheme ? 'teal' : 'retro');
       event.currentTarget.setAttribute('aria-pressed', String(isCoolTheme));
       const nextTheme = isCoolTheme ? 'retro' : 'turquoise';
       event.currentTarget.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
