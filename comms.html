@@ -1596,20 +1596,26 @@
       if (!selectedCommission) return '';
 
       const minimumAmount = document.getElementById('estimatedMinimum').value;
-      if (!minimumAmount) return 'Commission type not selected; no estimate available.';
-
-      if (!selectedCommission.closest('[id="2D"]')) {
-        return `Commission type: ${selectedCommission.dataset.segmentName}; minimum estimate: ${formatCurrency(Number(minimumAmount))}+.`;
-      }
-
-      const commissionType = document.getElementById('estimate-type').value;
+      const isTwoDimensional = Boolean(selectedCommission.closest('[id="2D"]'));
+      const commissionType = isTwoDimensional
+        ? document.getElementById('estimate-type').value || 'Not selected'
+        : selectedCommission.dataset.segmentName;
       const renderStyle = document.getElementById('estimate-render-style').value;
-      const renderStyleLabel = renderStyle === 'render' ? 'Rendered' : `${renderStyle[0].toUpperCase()}${renderStyle.slice(1)}`;
-      const isDoodle = document.getElementById('estimate-doodle').checked;
-      const isNsfw = document.getElementById('estimate-nsfw').checked;
-      const extraCharacters = Number.parseInt(document.getElementById('estimate-extra-characters').value, 10) || 0;
-      const renderStyleSurcharge = estimatePricing.renderStyleSurcharges[renderStyle] ?? 0;
-      return `Commission type: ${commissionType}; Render Style: ${renderStyleLabel}; Doodle: ${isDoodle ? `yes (-${estimatePricing.doodleDiscountRate * 100}%)` : 'no'}; NSFW: ${isNsfw ? `yes (+${formatCurrency(estimatePricing.nsfwSurcharge)})` : 'no'}; Additional Characters: ${extraCharacters} (+${estimatePricing.additionalCharacterRate * 100}% each); Render Style Surcharge: ${formatCurrency(renderStyleSurcharge)}; Minimum Estimate: ${formatCurrency(Number(minimumAmount))}+.`;
+      const commissionDetail = isTwoDimensional
+        ? ({ lineart: 'Lineart', flat: 'Flat', render: 'Rendered' }[renderStyle] || 'Not selected')
+        : '';
+      const isNsfw = isTwoDimensional && document.getElementById('estimate-nsfw').checked;
+      const isDoodle = isTwoDimensional && document.getElementById('estimate-doodle').checked;
+      const extraCharacters = isTwoDimensional
+        ? Number.parseInt(document.getElementById('estimate-extra-characters').value, 10) || 0
+        : 0;
+      const finalEstimate = formatCurrency(Number(minimumAmount) || 0);
+      const summaryParts = [commissionDetail, commissionType];
+      if (isDoodle) summaryParts.push('[Doodle]');
+      if (isNsfw) summaryParts.push('[NSFW]');
+      if (extraCharacters > 0) summaryParts.push(`[+${extraCharacters} Characters]`);
+      summaryParts.push(`[${finalEstimate}]`);
+      return summaryParts.filter(Boolean).join(' ');
     }
 
     function selectCommission(segment) {
@@ -1817,7 +1823,7 @@
         const referenceLinks = String(formData.get('references') || '').trim();
         const submissionDetails = [
           String(formData.get('details') || '').trim(),
-          `Price estimate: ${buildEstimateSummary()}`,
+          buildEstimateSummary(),
           referenceLinks ? `Reference links:\n${referenceLinks}` : ''
         ].filter(Boolean);
         formData.set('details', submissionDetails.join('\n\n'));
