@@ -44,7 +44,9 @@
     }
 
     body {
-      min-height: 100%;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
       overflow-x: hidden;
       background: var(--page);
       color: var(--ink);
@@ -93,6 +95,9 @@
     }
 
     .content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
       width: min(100% - 2rem, 1080px);
       margin: 0 auto 2rem;
     }
@@ -103,6 +108,114 @@
 
     .content-section.active {
       display: block;
+    }
+
+    .socials-section {
+      max-width: none;
+      margin: 0;
+    }
+
+    .socials-section.active {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .socials-panel {
+      width: min(100%, 720px);
+      margin: 1rem auto;
+    }
+
+    .tos-panel {
+      width: min(100%, 800px);
+      margin: 1rem auto;
+    }
+
+    .socials-profile {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .socials-profile h1 {
+      font-size: 0.8rem;
+    }
+
+    .socials-avatar {
+      display: block;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .socials-profile p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .social-links {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .social-link {
+      display: flex;
+      min-height: 4.5rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--ink);
+      text-decoration: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .social-link:hover,
+    .social-link:focus-visible {
+      border-color: var(--accent);
+      background: var(--surface-raised);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    .social-link-copy {
+      flex: 1;
+      display: grid;
+      text-align: left;
+    }
+
+    .social-link-icon {
+      flex: 0 0 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      object-fit: contain;
+    }
+
+    .social-link-identity {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .social-link-handle {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .social-link-description {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .social-link .material-symbols-outlined {
+      color: var(--accent);
     }
 
     .commission-block {
@@ -682,9 +795,6 @@
         font-size: 1.3rem;
       }
 
-      .footer-links {
-        gap: 1rem !important;
-      }
     }
 
     :root {
@@ -854,6 +964,7 @@
     }
 
     .site-footer {
+      margin-top: auto;
       border-top: 1px solid var(--accent-pink);
       background-color: var(--surface);
       background-image: linear-gradient(rgba(13, 5, 26, 0.86), rgba(20, 7, 30, 0.92)), url('background2.png');
@@ -861,11 +972,6 @@
       background-repeat: no-repeat, repeat;
       color: var(--ink);
       box-shadow: 0 -5px 24px rgba(255, 48, 182, 0.14);
-    }
-
-    .site-footer .footer-links a {
-      color: var(--accent);
-      text-shadow: 0 0 8px rgba(88, 239, 255, 0.35);
     }
 
     body.theme-cool {
@@ -976,11 +1082,6 @@
       box-shadow: none;
     }
 
-    body.theme-cool .site-footer .footer-links a {
-      color: #a9d7cc;
-      text-shadow: none;
-    }
-
     body.theme-cool .theme-toggle {
       border-color: var(--line);
       background: var(--surface);
@@ -1037,13 +1138,64 @@
   <header>Jiggles' Comms</header>
 
   <nav>
-    <button onclick="startRequest()">REQUEST</button>
+    <button onclick="showSection('socials')">SOCIALS</button>
     <button onclick="showSection('2D')">2D COMMS</button>
     <button onclick="showSection('portfolio')">3D COMMS</button>
-    <button onclick="showSection('ToS')">ToS/Contact</button>
+    <button onclick="showSection('ToS')">ToS</button>
   </nav>
 
   <div class="content">
+
+    <section id="socials" class="content-section socials-section" aria-labelledby="socials-title">
+      <div class="commission-block socials-panel">
+        <div class="socials-profile">
+          <img class="socials-avatar" src="PFP.png" alt="Jiggles' profile picture">
+          <h1 id="socials-title">@jigglesart</h1>
+          <p>24 / furry enjoyer / i do lots of things :3</p>
+        </div>
+        <div class="social-links">
+          <div class="social-link">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/discord/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Discord</strong><span aria-hidden="true">|</span><span class="social-link-handle">jiggles11</span></span></span>
+          </div>
+          <a class="social-link" href="https://www.patreon.com/c/JiggIes" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/patreon/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Patreon</strong><span aria-hidden="true">|</span><span class="social-link-handle">@JiggIes</span></span><span class="social-link-description">Extra content + .CLIP files and stuffzzz :P</span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+          <a class="social-link" href="https://jiggies.itch.io/" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/itchdotio/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Itch.io</strong><span aria-hidden="true">|</span><span class="social-link-handle">@jiggies</span></span><span class="social-link-description">Check out RETROPHANTASIA!!!</span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+          <a class="social-link" href="https://x.com/jigglesart" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/x/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Twitter</strong><span aria-hidden="true">|</span><span class="social-link-handle">@jigglesart</span></span><span class="social-link-description">Where I post all my finished works.</span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+          <a class="social-link" href="https://x.com/eviljiggs" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/x/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Twitter 🔞</strong><span aria-hidden="true">|</span><span class="social-link-handle">@eviljiggs</span></span><span class="social-link-description">For whatever I can't post on my main.. xD</span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/jigglesart_/" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Instagram</strong><span aria-hidden="true">|</span><span class="social-link-handle">@jigglesart_</span></span><span class="social-link-description">Lots of WIPs and more personal stuff</span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+          <a class="social-link" href="https://bsky.app/profile/jiggle" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/bluesky/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Bluesky [INACTIVE]</strong><span aria-hidden="true">|</span><span class="social-link-handle">@jigglesart</span></span><span class="social-link-description"></span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+          <a class="social-link" href="https://trello.com/b/cl2xPMcv/jiggles-art" target="_blank" rel="noopener noreferrer">
+            <img class="social-link-icon" src="https://cdn.simpleicons.org/trello/FFFFFF" alt="" aria-hidden="true">
+            <span class="social-link-copy"><span class="social-link-identity"><strong>Trello Queue</strong><span aria-hidden="true">|</span><span class="social-link-handle">Comm Progress</span></span><span class="social-link-description"></span></span>
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- 3D COMMISSIONS -->
     <div id="portfolio" class="content-section">
@@ -1157,8 +1309,8 @@
 
 
 
-    <!-- TERMS OF SERVICE + CONTACT -->
-<div id="ToS" class="content-section">
+    <!-- TERMS OF SERVICE -->
+<div id="ToS" class="content-section commission-block tos-panel">
     <h2>Terms of Service</h2> <br><br>
     <ul style="text-align: left;">
       <li>Credit (@jigglesart) is appreciated but not required.</li> <br>
@@ -1167,15 +1319,6 @@
       <li>I will not issue refunds after the commission is completed. If I cannot complete your commission, I will issue a full refund.</li> <br>
       <li>I typically aim to finish models within a week, but VR aivs may take up to 3 weeks depending on queue and complexity.</li><br>
       <li>I'll keep in touch and provide regular updates! (Check out my Trello)</li><br>
-    </ul>
-  
-    <h2 style="margin-top: 2rem;">Contact</h2> <br> <br>
-    <ul style="text-align: left;">
-      <li><strong>Discord:</strong> jiggles11</li>
-      <li><strong>X (Twitter):</strong> <a href="https://x.com/jigglesart" target="_blank">@jigglesart</a></li>
-      <li><strong>Instagram:</strong> <a href="https://www.instagram.com/jigglesart_/" target="_blank">@jigglesart_</a></li>
-      <li><strong>Trello Queue:</strong> <a href="https://trello.com/b/cl2xPMcv/jiggles-art" target="_blank">View Trello Board</a></li>
-      <!-- <li><strong>PayPal:</strong> <a href="https://www.paypal.me/jaimelopezjr11" target="_blank" style="color: #FF69B4;">Click me!!</a></li> -->
     </ul>
   </div>
 
@@ -1271,14 +1414,8 @@
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to turquoise theme" aria-pressed="false" title="Switch to turquoise theme"><span class="material-symbols-outlined" aria-hidden="true">brightness_6</span></button>
 
   <!-- FOOTER -->
-  <footer class="site-footer" style="text-align: center; padding: 2rem; margin-top: 2rem;">
+  <footer class="site-footer" style="text-align: center; padding: 1rem 2rem;">
     <div style="max-width: 800px; margin: 0 auto;">
-      <div class="footer-links" style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-        <a href="https://x.com/jigglesart" target="_blank" style="text-decoration: none;">🐦 Twitter</a>
-        <a href="https://www.instagram.com/jigglesart_/" target="_blank" style="text-decoration: none;">📷 Instagram</a>
-        <a href="https://jiggies.itch.io" target="_blank" style="text-decoration: none;">🎮 itch.io</a>
-      </div>
-      <br>
       <p style="margin-bottom: 1rem; font-size: 0.8rem;">© 2024 Jiggles Art <br> All rights reserved</p>
       <p style="margin-top: 1rem; font-size: 0.7rem; opacity: 0.8;">Check out my games too! ;D</p>
     </div>
@@ -1931,7 +2068,11 @@
 
     // Set initial active tab
     document.addEventListener('DOMContentLoaded', function() {
-      document.querySelector('nav button[onclick="showSection(\'2D\')"]').classList.add('active');
+      if (window.location.hash === '#socials') {
+        showSection('socials');
+      } else {
+        document.querySelector('nav button[onclick="showSection(\'2D\')"]').classList.add('active');
+      }
 
       // Add error handling for images
       document.querySelectorAll('img').forEach(img => {
@@ -1947,13 +2088,9 @@
     document.addEventListener('keydown', function(e) {
       // Tab navigation between sections
       if (e.key >= '1' && e.key <= '4') {
-        const sections = ['REQUEST', '2D', 'portfolio', 'ToS'];
+        const sections = ['socials', '2D', 'portfolio', 'ToS'];
         const index = parseInt(e.key) - 1;
-        if (sections[index] === 'REQUEST') {
-          startRequest();
-        } else {
-          showSection(sections[index]);
-        }
+        showSection(sections[index]);
       }
 
       // Escape key closes lightbox
